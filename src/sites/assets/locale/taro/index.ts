@@ -10,9 +10,9 @@ interface LanguagesPackage<A = {}> {
     A
 }
 
-export const useTranslate = <T>(languagesPackage: LanguagesPackage<T>) => {
-  const [locale] = useLocale()
-  const [translated, setLanguagesPackage] = useState<BaseLang & T>(
+export let useTranslate = <T>(languagesPackage: LanguagesPackage<T>) => {
+  let [locale] = useLocale()
+  let [translated, setLanguagesPackage] = useState<BaseLang & T>(
     languagesPackage[locale || 'zh-CN'] as any
   )
   // useEffect(() => {
