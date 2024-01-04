@@ -1,11 +1,11 @@
 /*
  * 用于发布之前纠正 H5 和 Taro 版本的依赖
  * */
-let path = require('path')
-let fsExtra = require('fs-extra')
-let packageData = require('../package.json')
+const path = require('path')
+const fsExtra = require('fs-extra')
+const packageData = require('../package.json')
 
-let cachePath = path.join(process.cwd(), '.cache/')
+const cachePath = path.join(process.cwd(), '.cache/')
 if (!fsExtra.ensureDirSync(cachePath)) {
   fsExtra.mkdirpSync(cachePath)
 }
