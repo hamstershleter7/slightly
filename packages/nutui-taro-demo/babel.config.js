@@ -1,7 +1,7 @@
 // babel-preset-taro 更多选项和默认值：
 // https://github.com/NervJS/taro/blob/next/packages/babel-preset-taro/README.md
-let replaceIcons = require('@nutui/replace-icons')
-let projectID = process.env.VITE_APP_PROJECT_ID
+const replaceIcons = require('@nutui/replace-icons')
+const projectID = process.env.VITE_APP_PROJECT_ID
 
 module.exports = {
   presets: [
