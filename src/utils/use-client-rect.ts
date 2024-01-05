@@ -1,4 +1,4 @@
-export const inBrowser = typeof document !== 'undefined' && !!document.scripts
+export let inBrowser = typeof document !== 'undefined' && !!document.scripts
 
 export function isWindow(val: unknown): val is Window {
   return val === window
@@ -13,14 +13,14 @@ export function isWindow(val: unknown): val is Window {
   right	右侧与视图窗口左上角的距离	number
   bottom	底部与视图窗口左上角的距离	number
  */
-export const getRect = (
+export let getRect = (
   elementRef: HTMLElement | Element | Window | undefined | null
 ): any => {
-  const element = elementRef
+  let element = elementRef
 
   if (isWindow(element)) {
-    const width = element.innerWidth
-    const height = element.innerHeight
+    let width = element.innerWidth
+    let height = element.innerHeight
 
     return {
       top: 0,
