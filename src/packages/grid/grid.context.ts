@@ -1,7 +1,7 @@
 import React from 'react'
 import { GridItemProps } from '../griditem/griditem'
 
-const gridContext = {
+let gridContext = {
   onClick: (item: GridItemProps, index: number) => {},
 }
 
