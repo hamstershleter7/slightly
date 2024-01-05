@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
 import config from '@/sites/config/env'
 
-export var getLocale = () => {
+export const getLocale = () => {
   let locale = 'zh-CN'
   try {
-    var matched = window.parent.location.href.match(/#\/([a-z-]+)/i)
+    const matched = window.parent.location.href.match(/#\/([a-z-]+)/i)
     if (matched) {
       ;[, locale] = matched
       if (config.locales.indexOf(locale) === -1) locale = 'zh-CN'
@@ -14,9 +14,9 @@ export var getLocale = () => {
   return locale
 }
 
-var useLocale = (): [string, any] => {
-  var [locale, setLocale] = useState<string>(getLocale())
-  var handlePopState = () => {
+const useLocale = (): [string, any] => {
+  const [locale, setLocale] = useState<string>(getLocale())
+  const handlePopState = () => {
     setLocale(getLocale())
   }
   useEffect(() => {
