@@ -42,11 +42,11 @@ class Tree {
       return []
     }
 
-    const pathNodes = []
+    var pathNodes = []
     let currentNodes: CascaderOption[] | void = this.nodes
 
     while (currentNodes && currentNodes.length) {
-      const foundNode: CascaderOption | void = currentNodes.find(
+      var foundNode: CascaderOption | void = currentNodes.find(
         (node) => node.value === value[node.level as number]
       )
 
@@ -63,19 +63,19 @@ class Tree {
 
   // eslint-disable-next-line class-methods-use-this
   isLeaf = (node: CascaderOption, lazy: boolean): boolean => {
-    const { leaf, children } = node
-    const hasChildren = Array.isArray(children) && Boolean(children.length)
+    var { leaf, children } = node
+    var hasChildren = Array.isArray(children) && Boolean(children.length)
     return leaf || (!hasChildren && !lazy)
   }
 
   hasChildren = (node: CascaderOption, lazy: boolean): boolean => {
-    const isLeaf = this.isLeaf(node, lazy)
+    var isLeaf = this.isLeaf(node, lazy)
 
     if (isLeaf) {
       return false
     }
 
-    const { children } = node
+    var { children } = node
     return Array.isArray(children) && Boolean(children.length)
   }
 }
