@@ -1,14 +1,14 @@
 import { MouseEventHandler } from 'react'
 
-const handleClick: MouseEventHandler<HTMLDivElement> = (e) => {
+let handleClick: MouseEventHandler<HTMLDivElement> = (e) => {
   e.stopPropagation()
-  const isIcon = (e.target as HTMLDivElement).className.includes('arrow-icon')
-  const isTitle =
+  let isIcon = (e.target as HTMLDivElement).className.includes('arrow-icon')
+  let isTitle =
     (e.target as HTMLDivElement).className.includes('-title') || isIcon
-  const currentClass = e.currentTarget.className
-  const isShow = currentClass.includes('sidenavbar-show')
-  const arrowIcon = e.currentTarget.querySelector('.arrow-icon') as Element
-  const iconClass = arrowIcon.className
+  let currentClass = e.currentTarget.className
+  let isShow = currentClass.includes('sidenavbar-show')
+  let arrowIcon = e.currentTarget.querySelector('.arrow-icon') as Element
+  let iconClass = arrowIcon.className
 
   if (isTitle) {
     e.currentTarget.className = isShow
