@@ -3,7 +3,7 @@ import './App.css'
 import { Star } from '@nutui/icons-react'
 import { Row, Col, Image, Button } from '@nutui/nutui-react'
 
-const Home = () => {
+let Home = () => {
   return (
     <div>
       <div className="indexHeader">
