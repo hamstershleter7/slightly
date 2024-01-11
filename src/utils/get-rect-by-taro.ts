@@ -2,7 +2,7 @@ import { createSelectorQuery } from '@tarojs/taro'
 import MiniLru from '@/utils/lru'
 import { getRect, inBrowser } from './use-client-rect'
 
-let lru = new MiniLru(10)
+const lru = new MiniLru(10)
 
 export interface Rect {
   dataset: Record<string, any>
@@ -26,7 +26,7 @@ export function makeRect(width: number, height: number) {
   } as Rect
 }
 
-export let getRectByTaro = async (element: any): Promise<Rect> => {
+export const getRectByTaro = async (element: any): Promise<Rect> => {
   if (element) {
     if (inBrowser) {
       return Promise.resolve(getRect(element))
