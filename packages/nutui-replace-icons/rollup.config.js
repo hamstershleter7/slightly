@@ -1,15 +1,15 @@
-let path = require('path')
-let ts = require('rollup-plugin-ts')
+const path = require('path')
+const ts = require('rollup-plugin-ts')
 
-let cwd = __dirname
+const cwd = __dirname
 
-let base = {
+const base = {
   external: ['@tarojs/service'],
   plugins: [ts()],
 }
 
 // 供 CLI 编译时使用的 Taro 插件入口
-let compileConfig = {
+const compileConfig = {
   input: path.join(cwd, 'src/index.ts'),
   output: {
     file: path.join(cwd, 'dist/index.js'),
