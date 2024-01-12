@@ -1,9 +1,9 @@
 import { PositionType, Data } from './types'
 
 // 缓存列表初始化信息
-var initPositinoCache = (reaItemSize: number, length = 0): PositionType[] => {
+const initPositinoCache = (reaItemSize: number, length = 0): PositionType[] => {
   let index = 0
-  var positions: PositionType[] = Array(length)
+  const positions: PositionType[] = Array(length)
   while (index < length) {
     positions[index] = {
       index,
@@ -19,11 +19,11 @@ var initPositinoCache = (reaItemSize: number, length = 0): PositionType[] => {
   return positions
 }
 // 获取列表总高度
-var getListTotalSize = (
+const getListTotalSize = (
   positions: Array<PositionType>,
   horizontal: true | false
 ): number => {
-  var index = positions.length - 1
+  const index = positions.length - 1
   let size = 0
   if (index < 0) {
     size = 0
@@ -33,7 +33,7 @@ var getListTotalSize = (
   return size
 }
 // 通过二分法找到 scrollOffset 对应的值
-var binarySearch = (
+const binarySearch = (
   positionsList: Array<PositionType>,
   horizontal: true | false,
   value = 0
@@ -41,10 +41,10 @@ var binarySearch = (
   let start = 0
   let end: number = positionsList.length - 1
   let tempIndex = null
-  var key = horizontal ? 'right' : 'bottom'
+  const key = horizontal ? 'right' : 'bottom'
   while (start <= end) {
-    var midIndex = Math.floor((start + end) / 2)
-    var midValue = positionsList[midIndex][key]
+    const midIndex = Math.floor((start + end) / 2)
+    const midValue = positionsList[midIndex][key]
 
     // 相等则直接返回（因为是bottom, 因此startIndex应该是下一个节点）
     if (midValue === value) {
@@ -66,7 +66,7 @@ var binarySearch = (
   tempIndex = tempIndex || 0
   return tempIndex
 }
-var getEndIndex = ({
+const getEndIndex = ({
   list,
   startIndex,
   visibleCount,
@@ -85,17 +85,17 @@ var getEndIndex = ({
   overscan: number
   sizeKey?: 'width' | 'height'
 }): number => {
-  var dataLength = list.length
+  const dataLength = list.length
   let tempIndex = null
   if (itemEqual) {
-    var endIndex = startIndex + visibleCount
+    const endIndex = startIndex + visibleCount
     tempIndex = dataLength > 0 ? Math.min(dataLength, endIndex) : endIndex
   } else {
     let sizeNum = 0
     for (let i = startIndex; i < dataLength; i++) {
       sizeNum += positions[i][sizeKey] || 0
       if (sizeNum > offSetSize) {
-        var endIndex = i + overscan
+        const endIndex = i + overscan
         tempIndex = dataLength > 0 ? Math.min(dataLength, endIndex) : endIndex
         break
       }
@@ -109,23 +109,23 @@ var getEndIndex = ({
 }
 
 // 更新Item大小
-var updateItemSize = (
+const updateItemSize = (
   positions: PositionType[],
   items: HTMLCollection,
   sizeKey: 'width' | 'height',
   margin?: number
 ): void => {
-  var newPos = positions.concat()
+  const newPos = positions.concat()
   Array.from(items).forEach((item) => {
-    var index = Number(item.getAttribute('data-index'))
-    var styleVal = item.getAttribute('style')
+    const index = Number(item.getAttribute('data-index'))
+    const styleVal = item.getAttribute('style')
     if (styleVal && styleVal.includes('none')) return
     let nowSize = item.getBoundingClientRect()[sizeKey]
     if (margin) nowSize += margin
 
-    var oldSize = positions[index][sizeKey] as number
+    const oldSize = positions[index][sizeKey] as number
     // 存在差值, 更新该节点以后所有的节点
-    var dValue = oldSize - nowSize
+    const dValue = oldSize - nowSize
     if (dValue) {
       if (sizeKey === 'width') {
         newPos[index].right -= dValue
