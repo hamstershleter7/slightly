@@ -20,7 +20,7 @@ type CompoundedComponent = React.ForwardRefExoticComponent<
   useWatch: typeof useWatch
 }
 
-const InnerForm = Form as CompoundedComponent
+let InnerForm = Form as CompoundedComponent
 
 InnerForm.Item = FormItem
 InnerForm.useForm = useForm
