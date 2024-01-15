@@ -1,9 +1,9 @@
-// const modulesPage = import.meta.globEager('/src/packages/**/doc.md', {
+// var modulesPage = import.meta.globEager('/src/packages/**/doc.md', {
 //   as: 'raw',
 // })
-const modulesPage = import.meta.glob('/src/packages/**/doc.md')
-const routes: any[] = []
-for (const path in modulesPage) {
+var modulesPage = import.meta.glob('/src/packages/**/doc.md')
+var routes: any[] = []
+for (var path in modulesPage) {
   let name = (/packages\/(.*)\/doc\.md/.exec(path) as any[])[1]
   routes.push({
     path: '/zh-CN/component/' + name,
@@ -12,13 +12,13 @@ for (const path in modulesPage) {
   })
 }
 
-// const modulesENPage = import.meta.glob('/src/packages/**/doc.en-US.md', {
+// var modulesENPage = import.meta.glob('/src/packages/**/doc.en-US.md', {
 //   as: 'raw',
 //   eager: true,
 // })
-const modulesENPage = import.meta.glob('/src/packages/**/doc.en-US.md')
+var modulesENPage = import.meta.glob('/src/packages/**/doc.en-US.md')
 // console.log('modulesENPage', modulesENPage)
-for (const path in modulesENPage) {
+for (var path in modulesENPage) {
   let name = (/packages\/(.*)\/doc\.en-US\.md/.exec(path) as any[])[1]
   routes.push({
     path: '/en-US/component/' + name,
@@ -27,9 +27,9 @@ for (const path in modulesENPage) {
   })
 }
 
-const modulesTaroPage = import.meta.glob('/src/packages/**/doc.taro.md')
+var modulesTaroPage = import.meta.glob('/src/packages/**/doc.taro.md')
 // console.log('modulesTaroPage', modulesTaroPage)
-for (const path in modulesTaroPage) {
+for (var path in modulesTaroPage) {
   let name = (/packages\/(.*)\/doc\.taro\.md/.exec(path) as any[])[1]
   routes.push({
     path: '/en-US/component/' + name + '-taro',
