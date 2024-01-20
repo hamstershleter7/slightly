@@ -2,7 +2,7 @@ import postcss from 'postcss'
 import { describe, expect, it } from 'vitest'
 import optimizeCss from '../dist/index.cjs'
 
-const css = `
+let css = `
 [dir=rtl] .ca, .xcdd {
   margin-left: 0;
   margin-right: 9px
@@ -14,12 +14,12 @@ const css = `
 `
 describe('@nutui/optimize-css', () => {
   it('remove rtl', async () => {
-    const a = await postcss([
+    let a = await postcss([
       optimizeCss({
         removeRtl: true,
       }),
     ]).process(css, { from: undefined })
-    const optimizedCsss = a.css.toString()
+    let optimizedCsss = a.css.toString()
     // @ts-ignore
     expect(optimizedCsss).toMatchSnapshot()
   })
