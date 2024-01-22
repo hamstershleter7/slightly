@@ -12,6 +12,6 @@ type CompoundedComponent = React.ForwardRefExoticComponent<
 > & {
   Item: typeof SwiperItem
 }
-let InnerSwiper = Swiper as CompoundedComponent
+const InnerSwiper = Swiper as CompoundedComponent
 InnerSwiper.Item = SwiperItem
 export default InnerSwiper
