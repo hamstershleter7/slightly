@@ -24,7 +24,7 @@ export function mergeProp<T, DefaultT extends T = T>(
   defaultProp: DefaultT,
   ...propList: T[]
 ): T | undefined {
-  for (let i = propList.length - 1; i >= 0; i -= 1) {
+  for (const i = propList.length - 1; i >= 0; i -= 1) {
     if (propList[i] !== undefined) {
       return propList[i]
     }
