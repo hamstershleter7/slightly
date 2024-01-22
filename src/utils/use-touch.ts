@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
 
-const MIN_DISTANCE = 10
+let MIN_DISTANCE = 10
 
 type Direction = '' | 'vertical' | 'horizontal'
 
@@ -15,22 +15,22 @@ function getDirection(x: number, y: number) {
 }
 
 export function useTouch() {
-  const startX = useRef(0)
-  const startY = useRef(0)
-  const deltaX = useRef(0)
-  const deltaY = useRef(0)
-  const delta = useRef(0)
-  const offsetX = useRef(0)
-  const offsetY = useRef(0)
-  const direction = useRef<Direction>('')
-  const last = useRef(false)
-  const velocity = useRef(0)
-  const touchTime = useRef<number>(Date.now())
+  let startX = useRef(0)
+  let startY = useRef(0)
+  let deltaX = useRef(0)
+  let deltaY = useRef(0)
+  let delta = useRef(0)
+  let offsetX = useRef(0)
+  let offsetY = useRef(0)
+  let direction = useRef<Direction>('')
+  let last = useRef(false)
+  let velocity = useRef(0)
+  let touchTime = useRef<number>(Date.now())
 
-  const isVertical = () => direction.current === 'vertical'
-  const isHorizontal = () => direction.current === 'horizontal'
+  let isVertical = () => direction.current === 'vertical'
+  let isHorizontal = () => direction.current === 'horizontal'
 
-  const reset = () => {
+  let reset = () => {
     touchTime.current = Date.now()
     deltaX.current = 0
     deltaY.current = 0
@@ -41,15 +41,15 @@ export function useTouch() {
     last.current = false
   }
 
-  const start = (event: React.TouchEvent<HTMLElement>) => {
+  let start = (event: React.TouchEvent<HTMLElement>) => {
     reset()
     touchTime.current = Date.now()
     startX.current = event.touches[0].clientX
     startY.current = event.touches[0].clientY
   }
 
-  const move = (event: React.TouchEvent<HTMLElement>) => {
-    const touch = event.touches[0]
+  let move = (event: React.TouchEvent<HTMLElement>) => {
+    let touch = event.touches[0]
     // Fix: Safari back will set clientX to negative number
     deltaX.current = touch.clientX < 0 ? 0 : touch.clientX - startX.current
     deltaY.current = touch.clientY - startY.current
@@ -61,7 +61,7 @@ export function useTouch() {
       direction.current = getDirection(offsetX.current, offsetY.current)
     }
   }
-  const end = (event: React.TouchEvent<HTMLElement>) => {
+  let end = (event: React.TouchEvent<HTMLElement>) => {
     last.current = true
     velocity.current =
       Math.sqrt(deltaX.current ** 2 + deltaY.current ** 2) /
