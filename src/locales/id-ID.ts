@@ -1,6 +1,6 @@
 import { BaseLang } from './base'
 
-const idID: BaseLang = {
+let idID: BaseLang = {
   save: 'Simpan',
   confirm: 'Konfirmasi',
   cancel: 'Batal',
