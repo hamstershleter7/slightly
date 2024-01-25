@@ -1,10 +1,10 @@
-var fse = require('fs-extra')
-var config = require('../../src/config.json')
-var targetBaseUrl = `${process.cwd()}/packages`
-var taroConfig = `${targetBaseUrl}/nutui-taro-demo/src/app.config.ts`
+const fse = require('fs-extra')
+const config = require('../../src/config.json')
+const targetBaseUrl = `${process.cwd()}/packages`
+const taroConfig = `${targetBaseUrl}/nutui-taro-demo/src/app.config.ts`
 
 // 创建 config
-var createConfig = async () => {
+const createConfig = async () => {
   let configRef = []
 
   return new Promise((res, rej) => {
@@ -26,12 +26,12 @@ var createConfig = async () => {
   })
 }
 
-var create = async () => {
-  var subpackages = await createConfig()
+const create = async () => {
+  const subpackages = await createConfig()
   fse.writeFileSync(
     taroConfig,
     `
-var subPackages = ${JSON.stringify(subpackages, null, 2)};\n
+const subPackages = ${JSON.stringify(subpackages, null, 2)};\n
 export default defineAppConfig ({
   pages: ['pages/index/index'],
   subPackages,
