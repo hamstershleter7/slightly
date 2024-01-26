@@ -7,7 +7,7 @@ export interface BasicComponent {
   id?: string
 }
 
-export let ComponentDefaults = {
+export const ComponentDefaults = {
   className: '',
   style: {},
 }
