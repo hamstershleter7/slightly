@@ -1,4 +1,4 @@
-let subPackages = [
+const subPackages = [
   {
     root: 'base',
     pages: [
