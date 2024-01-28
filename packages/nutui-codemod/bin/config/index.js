@@ -1,5 +1,5 @@
-const pkgVersion = process.argv.indexOf('-taro') > -1 ? 'taro' : 'h5'
-const pkgInfo = {
+let pkgVersion = process.argv.indexOf('-taro') > -1 ? 'taro' : 'h5'
+let pkgInfo = {
   h5: {
     icon: '@nutui/icons-react',
     ui: '@nutui/nutui-react',
