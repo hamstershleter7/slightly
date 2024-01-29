@@ -5,16 +5,16 @@ import commonjs from '@rollup/plugin-commonjs'
 import typescript from '@rollup/plugin-typescript'
 import config from './src/config.json'
 
-let entries: any = {
+const entries: any = {
   'nutui-react.es': path.join(__dirname, `./src/packages/nutui.react.build.ts`),
 }
-let outputEntries: any = {}
+const outputEntries: any = {}
 
 config.nav.forEach((item) => {
   item.packages.forEach((element) => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    let { name, show, exportEmpty, exclude } = element
+    const { name, show, exportEmpty, exclude } = element
     if (exclude) return
     if (show || exportEmpty) {
       outputEntries[`./${name.toLowerCase()}`] = `./${name}`
