@@ -1,18 +1,18 @@
 // generate nutui.react.ts file for dev or build
 const config = require('../../src/config.json')
-let glob = require('glob')
+var glob = require('glob')
 const path = require('path')
 const fs = require('fs-extra')
-let importStr = ``
-let importMarkdownStr = ``
-let importScssStr = `\n`
+var importStr = ``
+var importMarkdownStr = ``
+var importScssStr = `\n`
 const packages = []
 const mds = []
 const raws = []
 
 config.nav.map((item) => {
   item.packages.forEach((element) => {
-    let { name, show, type, taro, exportEmpty, exclude } = element
+    var { name, show, type, taro, exportEmpty, exclude } = element
     if (exclude) return
     // if (show ) {
     importStr += `import ${name} from '@/packages/${name.toLowerCase()}/index.taro'\n`
@@ -27,8 +27,8 @@ config.nav.map((item) => {
           '*.md'
       )
       .map((f) => {
-        let lang = 'zh-CN'
-        let matched = f.match(/doc\.([a-z-]+)\.md/i)
+        var lang = 'zh-CN'
+        var matched = f.match(/doc\.([a-z-]+)\.md/i)
         if (matched) {
           ;[, lang] = matched
           const langComponentName = `${name}${lang.replace('-', '')}`
@@ -42,7 +42,7 @@ config.nav.map((item) => {
   })
 })
 
-let fileStrBuild = `${importStr}
+var fileStrBuild = `${importStr}
 export { ${packages.join(',')} };`
 
 fs.outputFile(
@@ -54,7 +54,7 @@ fs.outputFile(
   }
 )
 
-let fileStr = `${importStr}
+var fileStr = `${importStr}
 ${importScssStr}
 export { ${packages.join(',')} };`
 fs.outputFile(
@@ -66,7 +66,7 @@ fs.outputFile(
   }
 )
 
-let taroScssfileStr = `
+var taroScssfileStr = `
 ${importScssStr}
 export default { "NutUI":"NutUI-Taro" };`
 fs.outputFile(
@@ -87,7 +87,7 @@ fs.outputFile(
   }
 )
 
-let mdFileStr = `${importMarkdownStr}
+var mdFileStr = `${importMarkdownStr}
 export const routers = [${mds.map((m) => `'${m}'`)}]
 export const raws = {${raws.join(',')}}
 `
