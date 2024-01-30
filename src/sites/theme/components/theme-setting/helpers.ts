@@ -39,9 +39,9 @@ class Store {
   }
 
   get formItems() {
-    const name = this.pathname
+    var name = this.pathname
     console.log('name,,', name)
-    const res = toJS(this.variables).filter(
+    var res = toJS(this.variables).filter(
       ({ lowerCaseName }) => lowerCaseName === name
     )
     console.log(res)
@@ -51,7 +51,7 @@ class Store {
   }
 
   get cssText() {
-    const variablesText = this.variables
+    var variablesText = this.variables
       .map(({ key, value }) => `${key}:${value}`)
       .join(';')
     cachedStyles = cachedStyles || extractStyle(this.rawStyles)
@@ -69,7 +69,7 @@ class Store {
 
   updateVariablesByItem(item: any) {
     this.variables.map((variable) => {
-      const { lowerCaseName, key } = variable
+      var { lowerCaseName, key } = variable
       if (lowerCaseName == item.lowerCaseName && key == item.key) {
         variable.value = item.value
       }
@@ -88,19 +88,19 @@ class Store {
   updateIframeStyle() {
     clearTimeout(timer)
     timer = setTimeout(() => {
-      const Sass = (window as any).Sass
+      var Sass = (window as any).Sass
       console.log('Sass', Sass)
       let beginTime = new Date().getTime()
       console.log('sass编译开始', beginTime)
       Sass &&
         Sass.compile(this.cssText, async (res: Obj) => {
           await awaitIframe()
-          const iframe = window.frames[0] as any
+          var iframe = window.frames[0] as any
           console.log(res.text)
           if (res.text && iframe) {
             console.log('sass编译成功', new Date().getTime() - beginTime)
             if (!iframe.__styleEl) {
-              const style = iframe.document.createElement('style')
+              var style = iframe.document.createElement('style')
               style.id = 'theme'
               iframe.__styleEl = style
             }
@@ -119,12 +119,12 @@ class Store {
   }
 }
 
-export const store = new Store()
-const components = configs.nav
+export var store = new Store()
+var components = configs.nav
   .map(({ packages }) => packages.map(({ name }) => name))
   .flat(1)
 
-const awaitIframe = async () => {
+var awaitIframe = async () => {
   while (
     !window.frames[0] ||
     !window.frames[0].document.querySelector('#nav')
@@ -133,16 +133,16 @@ const awaitIframe = async () => {
   }
 }
 
-const loadScript = async (url: string) =>
+var loadScript = async (url: string) =>
   new Promise((resolve, reject) => {
-    const script = document.createElement('script')
+    var script = document.createElement('script')
     script.onload = resolve
     script.onerror = reject
     script.src = url
     document.head.appendChild(script)
   })
 
-const zhKeyDesc = {
+var zhKeyDesc = {
   '$color-primary': '全局主题色',
   '$color-primary-stop-2': '全局主题色结束颜色（主题色渐变，例如 Button）',
 } as any
@@ -152,7 +152,7 @@ type Obj = {
 }
 
 // 提取样式代码，只保留有使用变量的行
-const extractStyle = (style: string) => {
+var extractStyle = (style: string) => {
   if (!store.variables.length) {
     return ''
   }
@@ -175,7 +175,7 @@ const extractStyle = (style: string) => {
   style = style.replace(
     /(?:({|;|\s|\n))[\w-]+:([^;{}]|;base64)+;(?!base64)/g,
     (matched) => {
-      const matchedKey = matched.match(/\$[\w-]+\b/g)
+      var matchedKey = matched.match(/\$[\w-]+\b/g)
       if (matchedKey && matchedKey.some((k) => store.variablesMap[k])) {
         return matched
       }
@@ -186,7 +186,7 @@ const extractStyle = (style: string) => {
   return style
 }
 
-const getInputType = (value: string) => {
+var getInputType = (value: string) => {
   if (/^\d+$/.test(value)) {
     return 'number'
   }
@@ -202,19 +202,19 @@ const getInputType = (value: string) => {
   return 'input'
 }
 // 提取变量
-const extractVariables = (
+var extractVariables = (
   matched: string[],
   name: string,
   lowerCaseName: string
 ) =>
   matched.reduce((res, str) => {
-    const extract = str
+    var extract = str
       .replace(/\s+!default/, '')
       .match(/(.*):(?:\s+)?([\s\S]*)(?:\s+)?;/)
 
     if (extract) {
-      const key = extract[1]
-      const value = extract[2]
+      var key = extract[1]
+      var value = extract[2]
       res.push({
         name, // 组件名
         lowerCaseName, // 组件名小写
@@ -230,15 +230,15 @@ const extractVariables = (
     return res
   }, [] as Obj[])
 
-const parseSassVariables = (text: string, components: string[]) => {
-  const matchedComponentVariables = components
+var parseSassVariables = (text: string, components: string[]) => {
+  var matchedComponentVariables = components
     .map((name) => {
-      const lowerCaseName = name.toLowerCase()
-      const reg = new RegExp(
+      var lowerCaseName = name.toLowerCase()
+      var reg = new RegExp(
         `(?<!\\/\\/(\\s+)?)\\$(${name}|${lowerCaseName})\\b[\\w-]+:([^;{}]|;base64)+;(?!base64)`,
         'g'
       )
-      const matched = text.match(reg)
+      var matched = text.match(reg)
       if (matched) {
         return extractVariables(matched, name, lowerCaseName)
       }
@@ -246,15 +246,15 @@ const parseSassVariables = (text: string, components: string[]) => {
     .filter(Boolean)
     .flat(2)
 
-  const baseVariablesReg = new RegExp(
+  var baseVariablesReg = new RegExp(
     `\\$(?!(${matchedComponentVariables
       .map((item) => (item && `${item.name}|${item.lowerCaseName}`) || '')
       .join('|')})\\b)[\\w-]+:[^:]+;`,
     'g'
   )
 
-  const variables = matchedComponentVariables as Obj[]
-  const matchedBaseVariables = text.match(baseVariablesReg)
+  var variables = matchedComponentVariables as Obj[]
+  var matchedBaseVariables = text.match(baseVariablesReg)
 
   // 组件变量以外的都作为基础变量
   if (matchedBaseVariables) {
@@ -264,39 +264,39 @@ const parseSassVariables = (text: string, components: string[]) => {
   return variables
 }
 
-const getRawFileText = async function (url: string) {
-  const response = await fetch(url)
-  const res = await response.text()
+var getRawFileText = async function (url: string) {
+  var response = await fetch(url)
+  var res = await response.text()
   return res
 }
 
-const getSassVariables = async () => {
+var getSassVariables = async () => {
   // vite 启动模式 bug 待修复
-  const rawVariablesText = await getRawFileText(
+  var rawVariablesText = await getRawFileText(
     `${config.themeUrl}/styles/variables.scss_source`
   )
   console.log(rawVariablesText)
-  const rawVariables = parseSassVariables(rawVariablesText, components)
+  var rawVariables = parseSassVariables(rawVariablesText, components)
 
   // 固定自定义主题的访问链接: https://nutui.jd.com/theme/?theme=自定义变量的文件地址#/
   // e.g. https://nutui.jd.com/theme/?theme=xxx.com%2variables.scss#/
   // vite issue https://github.com/vitejs/vite/issues/6894
-  const params = new URLSearchParams(window.location.search)
-  const customUrl = params.get('theme')
+  var params = new URLSearchParams(window.location.search)
+  var customUrl = params.get('theme')
   if (customUrl) {
-    const customVariablesText = await getRawFileText(customUrl)
-    const customVariables = parseSassVariables(customVariablesText, components)
+    var customVariablesText = await getRawFileText(customUrl)
+    var customVariables = parseSassVariables(customVariablesText, components)
 
     // merge
     rawVariables.forEach((item) => {
-      const custom = customVariables.find(({ key }) => key === item.key)
+      var custom = customVariables.find(({ key }) => key === item.key)
       if (custom) {
         item.value = custom.value
       }
     })
   }
 
-  const variablesMap = rawVariables.reduce((map, item) => {
+  var variablesMap = rawVariables.reduce((map, item) => {
     map[item.key] = 1
     return map
   }, {})
@@ -304,23 +304,23 @@ const getSassVariables = async () => {
   store.updateVariablesMap(variablesMap)
 }
 
-export const getRawSassStyle = async (): Promise<void> => {
-  const style = await getRawFileText(
+export var getRawSassStyle = async (): Promise<void> => {
+  var style = await getRawFileText(
     `${config.themeUrl}/styles/sass-styles.scss_source`
   )
   store.updateRawStyles(style)
 }
 
-export const initSass = async () => {
+export var initSass = async () => {
   await loadScript('https://cdnout.com/sass.js/sass.sync.min.js')
   await Promise.all([getSassVariables(), getRawSassStyle()])
 }
 
-export const useThemeEditor = () => {
-  const history = useHistory()
+export var useThemeEditor = () => {
+  var history = useHistory()
   useEffect(() => {
-    const pathname = history.location.pathname
-    const pathnameArr = pathname.split('/')
+    var pathname = history.location.pathname
+    var pathnameArr = pathname.split('/')
 
     store.updatePathname(
       pathname.endsWith('/') === '/'
@@ -330,7 +330,7 @@ export const useThemeEditor = () => {
   }, [history.location.pathname])
 
   useEffect(() => {
-    const innerAsync = async () => {
+    var innerAsync = async () => {
       await initSass()
     }
     innerAsync()
