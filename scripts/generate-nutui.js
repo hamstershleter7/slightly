@@ -1,17 +1,17 @@
 // generate nutui.react.ts file for dev or build
-var config = require('../src/config.json')
-var glob = require('glob')
-var path = require('path')
-var fs = require('fs-extra')
+const config = require('../src/config.json')
+const glob = require('glob')
+const path = require('path')
+const fs = require('fs-extra')
 
 let importStr = ``
 let importMarkdownStr = ``
 let importOnlineEditScssStr = ``
 let importScssStr = `\n`
-var packages = []
-var onlineEditScss = []
-var mds = []
-var raws = []
+const packages = []
+const onlineEditScss = []
+const mds = []
+const raws = []
 
 config.nav.map((item) => {
   item.packages.forEach((element) => {
@@ -35,7 +35,7 @@ config.nav.map((item) => {
           let matched = f.match(/doc\.([a-z-]+)\.md/i)
           if (matched) {
             ;[, lang] = matched
-            var langComponentName = `${name}${lang.replace('-', '')}`
+            const langComponentName = `${name}${lang.replace('-', '')}`
             importMarkdownStr += `import ${langComponentName} from '@/packages/${name.toLowerCase()}/doc.${lang}.md?raw';\n`
             raws.push(langComponentName)
           }
@@ -91,9 +91,9 @@ fs.outputFile(
 
 let mdFileStr = `${importMarkdownStr}
 ${importOnlineEditScssStr}
-export var scssRaws = { ${onlineEditScss.map((r) => r + 'Scss').join(',')} }
-export var routers = [${mds.map((m) => `'${m}'`)}]
-export var raws = {${raws.join(',')}}
+export const scssRaws = { ${onlineEditScss.map((r) => r + 'Scss').join(',')} }
+export const routers = [${mds.map((m) => `'${m}'`)}]
+export const raws = {${raws.join(',')}}
 `
 
 fs.outputFile(
