@@ -1,9 +1,9 @@
-var config = require('../src/config.json')
-var path = require('path')
-var fse = require('fs-extra')
-var fs = require('fs')
-var projectID = process.env.VITE_APP_PROJECT_ID
-var components = []
+const config = require('../src/config.json')
+const path = require('path')
+const fse = require('fs-extra')
+const fs = require('fs')
+const projectID = process.env.VITE_APP_PROJECT_ID
+const components = []
 
 config.nav.forEach((c) => {
   c.packages.forEach((p) => {
@@ -15,11 +15,11 @@ config.nav.map((item) => {
   item.packages.forEach((element) => {
     let { name, show, exportEmpty, exclude } = element
     if (exclude) return
-    var nameLowerCase = name.toLowerCase()
+    const nameLowerCase = name.toLowerCase()
 
-    var file = path.resolve(process.cwd(), `dist/esm/${name}/style/index.js`)
+    const file = path.resolve(process.cwd(), `dist/esm/${name}/style/index.js`)
     if (show || exportEmpty) {
-      var componentSassFile = path.join(
+      const componentSassFile = path.join(
         __dirname,
         `../dist/packages/${nameLowerCase}/${nameLowerCase}.scss`
       )
@@ -28,7 +28,7 @@ config.nav.map((item) => {
         encoding: 'utf8',
         flag: 'r',
       })
-      var matched = data.match(/@import.*?[;][\n\r]?/gi)
+      const matched = data.match(/@import.*?[;][\n\r]?/gi)
 
       let rewrite = ''
       if (matched && matched.length) {
@@ -50,9 +50,9 @@ config.nav.map((item) => {
               im = im.replace("';", ".scss';")
             }
             // 引入的组件转换
-            var matchGroup = im.match(/\.\.\/(?<package>[a-z]+)\//)
+            const matchGroup = im.match(/\.\.\/(?<package>[a-z]+)\//)
             if (matchGroup && matchGroup.groups && matchGroup.groups.package) {
-              var find = components.filter(
+              const find = components.filter(
                 (c) => c.toLowerCase() == matchGroup.groups.package
               )[0]
               if (find) {
