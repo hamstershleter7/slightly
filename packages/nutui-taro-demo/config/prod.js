@@ -1,5 +1,5 @@
-const projectID = process.env.VITE_APP_PROJECT_ID
-const publicPath = `/taro/react/${projectID === 'jmapp' ? 'jdesign' : '2x'}/demo`
+let projectID = process.env.VITE_APP_PROJECT_ID
+let publicPath = `/taro/react/${projectID === 'jmapp' ? 'jdesign' : '2x'}/demo`
 
 module.exports = {
   env: {
@@ -24,9 +24,9 @@ module.exports = {
     //    * 如果 h5 端首屏加载时间过长，可以使用 prerender-spa-plugin 插件预加载首页。
     //    * @docs https://github.com/chrisvfritz/prerender-spa-plugin
     //    */
-    //   const path = require('path')
-    //   const Prerender = require('prerender-spa-plugin')
-    //   const staticDir = path.join(__dirname, '..', 'dist')
+    //   let path = require('path')
+    //   let Prerender = require('prerender-spa-plugin')
+    //   let staticDir = path.join(__dirname, '..', 'dist')
     //   chain
     //     .plugin('prerender')
     //     .use(new Prerender({
