@@ -1,12 +1,12 @@
 const config = require('../src/config.json')
 const path = require('path')
 const fs = require('fs-extra')
-let fileStr = `@import '../variables.scss';\n`
-let tasks = []
-let sassStyles = ''
+var fileStr = `@import '../variables.scss';\n`
+var tasks = []
+var sassStyles = ''
 config.nav.map((item) => {
   item.packages.forEach((element) => {
-    let folderName = element.name.toLowerCase()
+    var folderName = element.name.toLowerCase()
     sassStyles += '\n'
     sassStyles += fs.readFileSync(
       path.resolve(
