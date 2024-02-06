@@ -1,17 +1,17 @@
 /**
  * 向生成的组件类型文件中注入注释
  */
-var fse = require('fs-extra')
-var path = require('path')
-var j = require('jscodeshift')
-var TARO = process.env.TARO
+const fse = require('fs-extra')
+const path = require('path')
+const j = require('jscodeshift')
+const TARO = process.env.TARO
 
 /**
  * 通过 cofnig.json 获取所有组件的数据
  */
 function readAllComponents() {
-  var config = require('../src/config.json')
-  var components = config.nav.reduce(function (accumulator, currentValue) {
+  const config = require('../src/config.json')
+  const components = config.nav.reduce(function (accumulator, currentValue) {
     currentValue.packages.forEach((package) => {
       if (package.exclude || package.version !== '2.0.0') {
         return
@@ -38,9 +38,9 @@ function readComponentDocument(docFile) {
  * @returns {{}} 返回 markdownIt 的 token. 当文档中存在父子组件，都会提取出来
  */
 function extractPropsTable(doc) {
-  var MarkdownIt = require('markdown-it')()
+  const MarkdownIt = require('markdown-it')()
   let sources = MarkdownIt.parse(doc, {})
-  var tables = {}
+  const tables = {}
   sources.forEach((token, index) => {
     if (
       token.type == 'heading_open' &&
@@ -48,7 +48,7 @@ function extractPropsTable(doc) {
       sources[index + 1].type == 'inline' &&
       sources[index + 1].content === 'Props'
     ) {
-      var componentName = sources[index - 2].content
+      const componentName = sources[index - 2].content
       let startIndex = index + 3
       tables[componentName] = []
       while (startIndex < sources.length) {
@@ -70,7 +70,7 @@ function extractPropsTable(doc) {
  * @returns {{}}
  */
 function markdownTable2Json(table) {
-  var rows = []
+  const rows = []
   let row = []
   let collectBodyFlag = false
   table.forEach((token) => {
@@ -94,17 +94,17 @@ function markdownTable2Json(table) {
 }
 
 function addComments(dtsPath, propsTable, componentName) {
-  var source = fse.readFileSync(dtsPath).toString()
+  const source = fse.readFileSync(dtsPath).toString()
 
   function findInTable(identifierName) {
-    var [info] = propsTable.filter(
+    const [info] = propsTable.filter(
       (t) => t[0].replace(/'/g, '') === identifierName
     )
     return info
   }
 
-  var transform = (file, api) => {
-    var j = api.jscodeshift.withParser('ts')
+  const transform = (file, api) => {
+    const j = api.jscodeshift.withParser('ts')
     return j(file.source)
       .find(j.TSInterfaceDeclaration, {
         id: {
@@ -115,7 +115,7 @@ function addComments(dtsPath, propsTable, componentName) {
       .forEach((path) => {
         path.value?.body?.body?.forEach((item) => {
           if (!item.key) return
-          var info = findInTable(item.key.name)
+          const info = findInTable(item.key.name)
           if (!info) return
           item['comments'] = [
             j.commentBlock(`*\n* ${info[1]}\n* @default ${info[3]}\n`),
@@ -124,7 +124,7 @@ function addComments(dtsPath, propsTable, componentName) {
       })
       .toSource()
   }
-  var result = transform({ source }, { jscodeshift: j })
+  const result = transform({ source }, { jscodeshift: j })
   if (result) {
     fse.writeFileSync(dtsPath, result)
   }
@@ -138,7 +138,7 @@ function getDtsPath(key) {
   } else {
     name = key.toLowerCase().replace('.', '')
   }
-  var file = path.join(
+  const file = path.join(
     __dirname,
     '../dist/types/packages',
     name,
@@ -163,23 +163,23 @@ function getComponentName(key) {
  *    step c: 添加注释
  */
 function codeShift() {
-  var components = readAllComponents()
+  const components = readAllComponents()
   components.forEach((component) => {
-    var { name } = component
-    var componentDocumentPath = path.join(
+    const { name } = component
+    const componentDocumentPath = path.join(
       __dirname,
       '../src/packages',
       name.toLowerCase(),
       TARO ? 'doc.taro.md' : 'doc.md'
     )
     if (fse.pathExistsSync(componentDocumentPath)) {
-      var tables = extractPropsTable(
+      const tables = extractPropsTable(
         readComponentDocument(componentDocumentPath)
       )
       Object.keys(tables).forEach((key) => {
-        var dtsPath = getDtsPath(key)
+        const dtsPath = getDtsPath(key)
         if (fse.pathExistsSync(dtsPath)) {
-          var table = markdownTable2Json(tables[key])
+          const table = markdownTable2Json(tables[key])
           addComments(dtsPath, table, getComponentName(key))
         } else {
           console.warn(name + ' dts file does not exist')
