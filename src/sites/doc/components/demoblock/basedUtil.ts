@@ -18,7 +18,7 @@ export function decompressText(str: string): any {
 }
 
 export function copyCodeHtml(code: string, callback: any): void {
-  let oInput = document.createElement('textarea')
+  const oInput = document.createElement('textarea')
   oInput.value = code
   document.body.appendChild(oInput)
   oInput.select() // 选择对象
