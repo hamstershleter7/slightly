@@ -1,18 +1,18 @@
-const targetBaseUrl = `${process.cwd()}/site_docs`
-const fse = require('fs-extra')
-const type = process.argv[2] || 'h5'
-const path = require('path')
+var targetBaseUrl = `${process.cwd()}/site_docs`
+var fse = require('fs-extra')
+var type = process.argv[2] || 'h5'
+var path = require('path')
 
 function readTsxFile(package, path) {
-  const data = fse.readFileSync(`src/packages/${package}/demos/${path}`, 'utf8')
+  var data = fse.readFileSync(`src/packages/${package}/demos/${path}`, 'utf8')
   return data
 }
 
-const copyFile = (from, to, package) => {
+var copyFile = (from, to, package) => {
   fse
     .readFile(from, 'utf8')
     .then((content) => {
-      const regex = /<CodeBlock src='(.*?)'><\/CodeBlock>/g
+      var regex = /<CodeBlock src='(.*?)'><\/CodeBlock>/g
       let match = ''
       while ((match = regex.exec(content))) {
         let temp = readTsxFile(package, match[1]) // 读取src中的文件
@@ -39,7 +39,7 @@ const copyFile = (from, to, package) => {
       console.error('处理文件时发生错误:', err)
     })
 }
-const removeFile = async (url) => {
+var removeFile = async (url) => {
   return new Promise((res, rej) => {
     fse.remove(url, (err) => {
       if (err) {
@@ -50,17 +50,17 @@ const removeFile = async (url) => {
   })
 }
 
-const copy = async () => {
+var copy = async () => {
   let configPath = `src/config.json`
   let configPkgPath = `package.json`
   let nutuiDocsConfigPath = `${targetBaseUrl}/config.json`
 
   // 判断 site_docs 文件是否存在根路径中
-  const existsRoot = await fse.pathExists(targetBaseUrl)
+  var existsRoot = await fse.pathExists(targetBaseUrl)
 
   if (existsRoot) await removeFile(targetBaseUrl)
   // 复制所有组件
-  const fromConfig = await fse.readJson(configPath)
+  var fromConfig = await fse.readJson(configPath)
   fromConfig.nav.forEach(({ packages }) => {
     packages.forEach((item) => {
       if (item.show) {
@@ -102,15 +102,15 @@ const copy = async () => {
   })
 
   // 复制 config.json
-  const fromPkgConfig = await fse.readJson(configPkgPath)
+  var fromPkgConfig = await fse.readJson(configPkgPath)
 
-  const obj = {
+  var obj = {
     version: '',
     nav: [],
     docs: [],
   }
   fse.outputJSON(nutuiDocsConfigPath, obj, () => {
-    const docsConfig = fse.readJson(nutuiDocsConfigPath)
+    var docsConfig = fse.readJson(nutuiDocsConfigPath)
     docsConfig.version = fromPkgConfig.version
     docsConfig.nav = fromConfig.nav
     docsConfig.docs = fromConfig.docs
