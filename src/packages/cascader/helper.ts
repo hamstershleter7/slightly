@@ -1,23 +1,23 @@
 import { CascaderOption, CascaderConfig, CascaderFormat } from './types'
 
-export const formatTree = (
+export var formatTree = (
   tree: CascaderOption[],
   parent: CascaderOption | null,
   config: CascaderConfig
 ): CascaderOption[] =>
   tree.map((node: any) => {
-    const {
+    var {
       value: valueKey = 'value',
       text: textKey = 'text',
       children: childrenKey = 'children',
     } = config
-    const {
+    var {
       [valueKey]: value,
       [textKey]: text,
       [childrenKey]: children,
       ...others
     } = node
-    const newNode: CascaderOption = {
+    var newNode: CascaderOption = {
       loading: false,
       ...others,
       level: parent ? ((parent && parent.level) || 0) + 1 : 0,
@@ -32,7 +32,7 @@ export const formatTree = (
     return newNode
   })
 
-export const eachTree = (
+export var eachTree = (
   tree: CascaderOption[],
   cb: (node: CascaderOption) => unknown
 ): void => {
@@ -48,27 +48,27 @@ export const eachTree = (
   }
 }
 
-const defaultConvertConfig = {
+var defaultConvertConfig = {
   topId: null,
   idKey: 'id',
   pidKey: 'pid',
   sortKey: '',
 }
-export const convertListToOptions = (
+export var convertListToOptions = (
   list: CascaderOption[],
   options: CascaderFormat
 ): CascaderOption[] => {
-  const mergedOptions = {
+  var mergedOptions = {
     ...defaultConvertConfig,
     ...(options || {}),
   }
-  const { topId, idKey, pidKey, sortKey } = mergedOptions
+  var { topId, idKey, pidKey, sortKey } = mergedOptions
   let result: CascaderOption[] = []
   let map: any = {}
   list.forEach((node: any) => {
     node = { ...node }
-    const { [idKey]: id, [pidKey]: pid } = node
-    const children = (map[pid] = map[pid] || [])
+    var { [idKey]: id, [pidKey]: pid } = node
+    var children = (map[pid] = map[pid] || [])
     if (!result.length && pid === topId) {
       result = children
     }
