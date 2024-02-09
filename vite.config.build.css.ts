@@ -4,15 +4,15 @@ import path from 'path'
 import atImport from 'postcss-import'
 import config from './package.json'
 
-let projectID = process.env.VITE_APP_PROJECT_ID
+const projectID = process.env.VITE_APP_PROJECT_ID
 
-let banner = `/*!
+const banner = `/*!
 * ${config.name} v${config.version} ${new Date()}
 * (c) 2023 @jdf2e.
 * Released under the MIT License.
 */`
 
-let { resolve } = path
+const { resolve } = path
 // https://vitejs.dev/config/
 export default defineConfig({
   resolve: {
