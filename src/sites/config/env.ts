@@ -12,7 +12,7 @@ type EnvConfig = {
  * articleUrl: 文章地址
  */
 
-const config: EnvConfig = {
+let config: EnvConfig = {
   baseUrl: '',
   themeUrl: '',
   isPrd: true, // 是否为线上
