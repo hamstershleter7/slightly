@@ -1,15 +1,15 @@
 // replace types alias for build
-let vfs = require('vinyl-fs')
-let map = require('map-stream')
-let fs = require('fs-extra')
-let exportPropsTypes = require('./export-props')
-let dest_docs = './dist/types'
+const vfs = require('vinyl-fs')
+const map = require('map-stream')
+const fs = require('fs-extra')
+const exportPropsTypes = require('./export-props')
+const dest_docs = './dist/types'
 
 vfs
   .src(['./dist/esm/types/src/packages/nutui.react.d.ts'])
   .pipe(
     map((file, cb) => {
-      let contents = file.contents
+      const contents = file.contents
         .toString()
         .replace(/^@\/packages/g, `.`)
         .replace(/import\s(.*)?\.scss\'\;[\t\n]/g, '')
@@ -26,7 +26,7 @@ vfs
       ])
       .pipe(
         map((file, cb) => {
-          let contents = file.contents
+          const contents = file.contents
             .toString()
             .replace(/^@\/packages/g, `..`)
           file.contents = Buffer.from(contents, 'utf8')
