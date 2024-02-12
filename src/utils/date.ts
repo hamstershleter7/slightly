@@ -6,7 +6,7 @@
  * @param {number} y - 年份
  * @return {Boolse} true|false
  */
-export let isLeapYear = (y: number): boolean => {
+export const isLeapYear = (y: number): boolean => {
   return (y % 4 === 0 && y % 100 !== 0) || y % 400 === 0
 }
 
@@ -14,13 +14,13 @@ export let isLeapYear = (y: number): boolean => {
  * 返回星期数
  * @return {String}
  */
-export let getWhatDay = (
+export const getWhatDay = (
   year: number,
   month: number,
   day: number
 ): string => {
-  let date = new Date(year, month - 1, day) // 月份从0开始
-  let dayNames = [
+  const date = new Date(year, month - 1, day) // 月份从0开始
+  const dayNames = [
     '星期日',
     '星期一',
     '星期二',
@@ -36,8 +36,8 @@ export let getWhatDay = (
  * 返回上一个月在当前面板中的天数
  * @return {Number}
  */
-export let getMonthPreDay = (year: number, month: number): number => {
-  let day = new Date(year, month - 1, 1).getDay() // 月份从0开始
+export const getMonthPreDay = (year: number, month: number): number => {
+  const day = new Date(year, month - 1, 1).getDay() // 月份从0开始
   return day === 0 ? 7 : day // 将周日从0改为7
 }
 
@@ -45,7 +45,7 @@ export let getMonthPreDay = (year: number, month: number): number => {
  * 返回月份天数
  * @return {Number}
  */
-export let getMonthDays = (year: string, month: string): number => {
+export const getMonthDays = (year: string, month: string): number => {
   if (/^0/.test(month)) {
     month = month.split('')[1]
   }
@@ -72,7 +72,7 @@ export let getMonthDays = (year: string, month: string): number => {
  * 补齐数字位数
  * @return {string}
  */
-export let getNumTwoBit = (n: number): string => {
+export const getNumTwoBit = (n: number): string => {
   return n > 9 ? `${n}` : `0${n}`
 }
 
@@ -80,10 +80,10 @@ export let getNumTwoBit = (n: number): string => {
  * 日期对象转成字符串
  * @return {string}
  */
-export let date2Str = (date: Date, split: string = '-'): string => {
-  let y = date.getFullYear()
-  let m = getNumTwoBit(date.getMonth() + 1)
-  let d = getNumTwoBit(date.getDate())
+export const date2Str = (date: Date, split: string = '-'): string => {
+  const y = date.getFullYear()
+  const m = getNumTwoBit(date.getMonth() + 1)
+  const d = getNumTwoBit(date.getDate())
   return [y, m, d].join(split)
 }
 
@@ -92,8 +92,8 @@ export let date2Str = (date: Date, split: string = '-'): string => {
  * @param {Number} 0返回今天的日期、1返回明天的日期，2返回后天得日期，依次类推
  * @return {string} '2014-12-31'
  */
-export let getDateString = (offset: number = 0): string => {
-  let date = new Date()
+export const getDateString = (offset: number = 0): string => {
+  const date = new Date()
   date.setDate(date.getDate() + offset)
   return date2Str(date, '-')
 }
@@ -102,9 +102,9 @@ export let getDateString = (offset: number = 0): string => {
  * 时间比较
  * @return {Boolean}
  */
-export let compareDate = (date1: string, date2: string): boolean => {
-  let startTime = new Date(date1.replace('-', '/').replace('-', '/'))
-  let endTime = new Date(date2.replace('-', '/').replace('-', '/'))
+export const compareDate = (date1: string, date2: string): boolean => {
+  const startTime = new Date(date1.replace('-', '/').replace('-', '/'))
+  const endTime = new Date(date2.replace('-', '/').replace('-', '/'))
   return startTime < endTime
 }
 
@@ -112,8 +112,8 @@ export let compareDate = (date1: string, date2: string): boolean => {
  * 时间是否相等
  * @return {Boolean}
  */
-export let isEqual = (date1: string, date2: string): boolean => {
-  let startTime = new Date((date1 || '').replace(/-/g, '/')).getTime()
-  let endTime = new Date(date2.replace(/-/g, '/')).getTime()
+export const isEqual = (date1: string, date2: string): boolean => {
+  const startTime = new Date((date1 || '').replace(/-/g, '/')).getTime()
+  const endTime = new Date(date2.replace(/-/g, '/')).getTime()
   return startTime === endTime
 }
