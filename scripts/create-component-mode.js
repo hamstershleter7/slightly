@@ -1,10 +1,10 @@
 // 创建模板
-const inquirer = require('inquirer')
-const path = require('path')
-const fs = require('fs')
-const config = require('../src/config.json')
-const demoModel = require('./demo')
-const nav = config.nav
+var inquirer = require('inquirer')
+var path = require('path')
+var fs = require('fs')
+var config = require('../src/config.json')
+var demoModel = require('./demo')
+var nav = config.nav
 
 var newCpt = {
   version: '1.0.0',
@@ -37,7 +37,7 @@ function init() {
           if (repeat) {
             return '该组件名已存在！'
           }
-          const pass = value && value.match(/^[A-Z]/)
+          var pass = value && value.match(/^[A-Z]/)
           if (pass) {
             return true
           }
@@ -49,7 +49,7 @@ function init() {
         name: 'cName',
         message: '组件中文名(十个字以内)：',
         validate(value) {
-          const pass = value && value.length <= 10
+          var pass = value && value.length <= 10
           if (pass) {
             return true
           }
@@ -67,7 +67,7 @@ function init() {
         message: '请选择组件类型(输入编号)：目前只支持组建模板',
         choices: ['component'],
         validate(value) {
-          const pass = value && /^[1-4]$/.test(value)
+          var pass = value && /^[1-4]$/.test(value)
           if (pass) {
             return true
           }
@@ -80,7 +80,7 @@ function init() {
         message:
           '请选择组件分类(输入编号)：1基础组件，2布局组件，3导航组件，4数据录入，5操作反馈，6展示组件，7特色组件',
         validate(value) {
-          const pass = /^[1-7]$/.test(value)
+          var pass = /^[1-7]$/.test(value)
           if (pass) {
             return true
           }
@@ -112,8 +112,8 @@ function init() {
     })
 }
 function createIndexJs() {
-  const nameLc = newCpt.name.toLowerCase()
-  const destPath = path.join('src/packages/' + nameLc)
+  var nameLc = newCpt.name.toLowerCase()
+  var destPath = path.join('src/packages/' + nameLc)
   if (!fs.existsSync(destPath)) {
     fs.mkdirSync(destPath)
   }
@@ -126,13 +126,13 @@ function createIndexJs() {
 
 function createReact() {
   return new Promise((resolve, reject) => {
-    const nameLc = newCpt.name.toLowerCase()
-    const name = newCpt.name
+    var nameLc = newCpt.name.toLowerCase()
+    var name = newCpt.name
     let content = demoModel(name).react
     let indexFileContent = demoModel(name).index
-    const dirPath = path.join(__dirname, `../src/packages/${nameLc}/`)
-    const filePath = path.join(dirPath, `${nameLc}.tsx`)
-    const indexFilePath = path.join(dirPath, `index.ts`)
+    var dirPath = path.join(__dirname, `../src/packages/${nameLc}/`)
+    var filePath = path.join(dirPath, `${nameLc}.tsx`)
+    var indexFilePath = path.join(dirPath, `index.ts`)
     if (!fs.existsSync(dirPath)) {
       fs.mkdirSync(filePath)
     }
@@ -148,13 +148,13 @@ function createReact() {
 
 function createReactTaro() {
   return new Promise((resolve, reject) => {
-    const nameLc = newCpt.name.toLowerCase()
-    const name = newCpt.name
+    var nameLc = newCpt.name.toLowerCase()
+    var name = newCpt.name
     let content = demoModel(name).react
     let indexFileContent = demoModel(name).taroindex
-    const dirPath = path.join(__dirname, `../src/packages/${nameLc}/`)
-    const filePath = path.join(dirPath, `${nameLc}.taro.tsx`)
-    const indexFilePath = path.join(dirPath, `index.taro.ts`)
+    var dirPath = path.join(__dirname, `../src/packages/${nameLc}/`)
+    var filePath = path.join(dirPath, `${nameLc}.taro.tsx`)
+    var indexFilePath = path.join(dirPath, `index.taro.ts`)
     if (!fs.existsSync(dirPath)) {
       fs.mkdirSync(filePath)
     }
@@ -170,11 +170,11 @@ function createReactTaro() {
 
 function createDemo() {
   return new Promise((resolve, reject) => {
-    const name = newCpt.name
-    const nameLc = newCpt.name.toLowerCase()
+    var name = newCpt.name
+    var nameLc = newCpt.name.toLowerCase()
     let content = demoModel(name).demo
-    const dirPath = path.join(__dirname, '../src/packages/' + nameLc)
-    const filePath = path.join(dirPath, `demo.tsx`)
+    var dirPath = path.join(__dirname, '../src/packages/' + nameLc)
+    var filePath = path.join(dirPath, `demo.tsx`)
     if (!fs.existsSync(dirPath)) {
       fs.mkdirSync(filePath)
     }
@@ -187,11 +187,11 @@ function createDemo() {
 
 function createTaroDemo() {
   return new Promise((resolve, reject) => {
-    const name = newCpt.name
-    const nameLc = newCpt.name.toLowerCase()
+    var name = newCpt.name
+    var nameLc = newCpt.name.toLowerCase()
     let content = demoModel(name).tarodemo
-    const dirPath = path.join(__dirname, '../src/packages/' + nameLc)
-    const filePath = path.join(dirPath, `demo.taro.tsx`)
+    var dirPath = path.join(__dirname, '../src/packages/' + nameLc)
+    var filePath = path.join(dirPath, `demo.taro.tsx`)
     if (!fs.existsSync(dirPath)) {
       fs.mkdirSync(filePath)
     }
@@ -209,8 +209,8 @@ function addToPackageJson() {
     nav[sort - 1].packages.push(newCpt)
     nav[sort - 1].packages = [
       ...nav[sort - 1].packages.sort((a, b) => {
-        const nameA = a.name.toUpperCase()
-        const nameB = b.name.toUpperCase()
+        var nameA = a.name.toUpperCase()
+        var nameB = b.name.toUpperCase()
         if (nameA < nameB) {
           return -1
         }
@@ -221,8 +221,8 @@ function addToPackageJson() {
       }),
     ]
     config.nav = nav
-    const dirPath = path.join(__dirname, `../`)
-    const filePath = path.join(dirPath, `src/config.json`)
+    var dirPath = path.join(__dirname, `../`)
+    var filePath = path.join(dirPath, `src/config.json`)
 
     var tempfile = JSON.stringify(config, null, 2)
     fs.writeFile(filePath, tempfile, (err) => {
@@ -233,10 +233,10 @@ function addToPackageJson() {
 }
 function createScss() {
   return new Promise((resolve, reject) => {
-    const nameLc = newCpt.name.toLowerCase()
+    var nameLc = newCpt.name.toLowerCase()
     let content = `.nut-${nameLc} {}`
-    const dirPath = path.join(__dirname, '../src/packages/' + nameLc)
-    const filePath = path.join(dirPath, `${nameLc}.scss`)
+    var dirPath = path.join(__dirname, '../src/packages/' + nameLc)
+    var filePath = path.join(dirPath, `${nameLc}.scss`)
     if (!fs.existsSync(dirPath)) {
       fs.mkdirSync(filePath)
     }
@@ -248,12 +248,12 @@ function createScss() {
 }
 function createDoc() {
   return new Promise((resolve, reject) => {
-    const nameLc = newCpt.name.toLowerCase()
-    const name = newCpt.name
+    var nameLc = newCpt.name.toLowerCase()
+    var name = newCpt.name
 
     let content = demoModel(name).doc
-    const dirPath = path.join(__dirname, '../src/packages/' + nameLc)
-    const filePath = path.join(dirPath, `doc.md`)
+    var dirPath = path.join(__dirname, '../src/packages/' + nameLc)
+    var filePath = path.join(dirPath, `doc.md`)
     if (!fs.existsSync(dirPath)) {
       fs.mkdirSync(filePath)
     }
