@@ -1,7 +1,7 @@
-let targetBaseUrl = `${process.cwd()}/site_docs_migrate`
-let fse = require('fs-extra')
+const targetBaseUrl = `${process.cwd()}/site_docs_migrate`
+const fse = require('fs-extra')
 
-let copyFile = (from, to) => {
+const copyFile = (from, to) => {
   fse
     .copy(from, to)
     .then(() => {
@@ -11,7 +11,7 @@ let copyFile = (from, to) => {
       console.error(err)
     })
 }
-let removeFile = async (url) => {
+const removeFile = async (url) => {
   return new Promise((res, rej) => {
     fse.remove(url, (err) => {
       if (err) {
@@ -22,9 +22,9 @@ let removeFile = async (url) => {
   })
 }
 
-let copy = async () => {
+const copy = async () => {
   // 判断 site_docs_migrate 文件是否存在根路径中
-  let existsRoot = await fse.pathExists(targetBaseUrl)
+  const existsRoot = await fse.pathExists(targetBaseUrl)
 
   if (existsRoot) await removeFile(targetBaseUrl)
 
