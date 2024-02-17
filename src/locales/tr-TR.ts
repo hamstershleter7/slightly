@@ -1,6 +1,6 @@
 import { BaseLang } from './base'
 
-const trTR: BaseLang = {
+let trTR: BaseLang = {
   save: 'Kaydet',
   confirm: 'Onayla',
   cancel: 'İptal',
