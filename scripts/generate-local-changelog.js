@@ -1,9 +1,9 @@
-const shell = require('shelljs')
-const fs = require('fs')
-const { join } = require('path')
+var shell = require('shelljs')
+var fs = require('fs')
+var { join } = require('path')
 
-const beforeTag = process.argv[2]
-const nextTag = process.argv[3]
+var beforeTag = process.argv[2]
+var nextTag = process.argv[3]
 
 shell.exec(
   `git log -1 --format=%ai ${beforeTag}`,
@@ -13,8 +13,8 @@ shell.exec(
       `git log --since="${stdout.replace('\n', '')}" --pretty=format:"%s" next`,
       { silent: true },
       (code, stdout, stderr) => {
-        const logs = stdout.split('\n')
-        const rules = [
+        var logs = stdout.split('\n')
+        var rules = [
           'build',
           'chore',
           'ci',
@@ -27,7 +27,7 @@ shell.exec(
           'style',
           'test',
         ]
-        const logsWithGithubUser = {
+        var logsWithGithubUser = {
           build: [],
           chore: [],
           ci: [],
@@ -41,7 +41,7 @@ shell.exec(
           test: [],
           others: [],
         }
-        const logSymbol = {
+        var logSymbol = {
           build: '* 📦 ',
           chore: '* 🏡 ',
           ci: '* 🤖 ',
@@ -57,7 +57,7 @@ shell.exec(
         }
         logs.forEach((log, index) => {
           if (log.indexOf(beforeTag) === -1) {
-            const a = rules.filter((rule) => {
+            var a = rules.filter((rule) => {
               return log.toLowerCase().startsWith(rule)
             })
             if (a.length) {
@@ -70,7 +70,7 @@ shell.exec(
 
         let changeLog = ''
         rules.forEach((rule) => {
-          const logs = logsWithGithubUser[rule]
+          var logs = logsWithGithubUser[rule]
           if (!logs.length) return
           changeLog += `${logs.map((log) => `${logSymbol[rule]}${log}`).join('\n')}\n`
         })
@@ -78,7 +78,7 @@ shell.exec(
           'date "+%Y-%m-%d"',
           { silent: true },
           (code, stdout, stderr) => {
-            const res = `# ${nextTag}\n\`${stdout.replaceAll('\n', '')}\`\n\n\n${changeLog}\n\n`
+            var res = `# ${nextTag}\n\`${stdout.replaceAll('\n', '')}\`\n\n\n${changeLog}\n\n`
 
             fs.writeFileSync(
               join(__dirname, '../CHANGELOG.md'),
