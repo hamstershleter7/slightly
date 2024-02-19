@@ -1,13 +1,13 @@
 import { useRef } from 'react'
 
-let idCounter: { [key: string]: number } = {}
+const idCounter: { [key: string]: number } = {}
 
 function uniqueId(prefix = '$nut$') {
   if (!idCounter[prefix]) {
     idCounter[prefix] = 0
   }
 
-  let id = ++idCounter[prefix]
+  const id = ++idCounter[prefix]
   if (prefix === '$nut$') {
     return `${id}`
   }
@@ -15,6 +15,6 @@ function uniqueId(prefix = '$nut$') {
 }
 
 export default function useUuid() {
-  let idRef = useRef(uniqueId())
+  const idRef = useRef(uniqueId())
   return idRef.current
 }
