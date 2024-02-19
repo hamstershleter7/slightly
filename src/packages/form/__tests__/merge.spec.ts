@@ -25,7 +25,7 @@ describe('merge', () => {
       h: true,
     }
 
-    const original = {
+    var original = {
       a: 1,
       b: {
         c: {
@@ -55,10 +55,10 @@ describe('merge', () => {
   })
 
   it('ignores the sources', () => {
-    const values = createNonPlainObjects()
-    const $merge = vi.fn().mockImplementation(merge)
+    var values = createNonPlainObjects()
+    var $merge = vi.fn().mockImplementation(merge)
 
-    for (const value of values) expect($merge(value)).toStrictEqual({})
+    for (var value of values) expect($merge(value)).toStrictEqual({})
 
     expect(values.length).toBeGreaterThan(0)
     expect($merge).toBeCalledTimes(values.length)
@@ -70,20 +70,20 @@ describe('merge', () => {
   })
 
   it('does not merge non plain objects', () => {
-    const values = createNonPlainObjects()
+    var values = createNonPlainObjects()
     expect(values.length).toBeGreaterThan(0)
-    const input: any = {}
+    var input: any = {}
 
-    for (const [index, value] of Object.entries(values)) {
+    for (var [index, value] of Object.entries(values)) {
       input[`value${index}`] = value
     }
 
-    const output = merge({}, input)
+    var output = merge({}, input)
 
-    for (const [index] of Object.entries(values)) {
-      const key = `value${index}`
-      const inputValue = input[key]
-      const outputValue = output[key]
+    for (var [index] of Object.entries(values)) {
+      var key = `value${index}`
+      var inputValue = input[key]
+      var outputValue = output[key]
 
       // eslint-disable-next-line no-restricted-globals
       if (typeof outputValue === 'number' && isNaN(outputValue)) {
@@ -105,8 +105,8 @@ describe('merge', () => {
 
 describe('clone', () => {
   it('clones the input', () => {
-    const object1 = { a: 1, b: { c: 2 } }
-    const object2 = clone(object1)
+    var object1 = { a: 1, b: { c: 2 } }
+    var object2 = clone(object1)
 
     expect(object1).toStrictEqual(object2)
     expect(object1 === object2).toBeFalsy()
@@ -114,8 +114,8 @@ describe('clone', () => {
   })
 
   it('clones each item of the array', () => {
-    const object1 = [{ a: 1, b: { c: 2 } }]
-    const object2 = clone(object1)
+    var object1 = [{ a: 1, b: { c: 2 } }]
+    var object2 = clone(object1)
 
     expect(object1).toStrictEqual(object2)
     expect(object1 === object2).toBeFalsy()
@@ -124,10 +124,10 @@ describe('clone', () => {
   })
 
   it('returns the same input', () => {
-    const values = createNonPlainObjects()
-    const $clone = vi.fn().mockImplementation(clone)
-    for (const value of values) {
-      const cloned = $clone(value)
+    var values = createNonPlainObjects()
+    var $clone = vi.fn().mockImplementation(clone)
+    for (var value of values) {
+      var cloned = $clone(value)
       // eslint-disable-next-line no-restricted-globals
       if (typeof cloned === 'number' && isNaN(cloned)) {
         // eslint-disable-next-line no-restricted-globals
@@ -165,7 +165,7 @@ describe('recursive', () => {
   })
 
   it('clones recursively', () => {
-    const test1 = { a: { b: 1 } }
+    var test1 = { a: { b: 1 } }
 
     expect(recursive(true, test1, { a: { c: 1 } })).toStrictEqual({
       a: { b: 1, c: 1 },
@@ -173,7 +173,7 @@ describe('recursive', () => {
 
     expect(test1).toStrictEqual({ a: { b: 1 } })
 
-    const test2 = { a: { b: 1, c: 1 } }
+    var test2 = { a: { b: 1, c: 1 } }
 
     expect(recursive(true, test2, { a: { b: 2 } })).toStrictEqual({
       a: { b: 2, c: 1 },
@@ -181,7 +181,7 @@ describe('recursive', () => {
 
     expect(test2).toStrictEqual({ a: { b: 1, c: 1 } })
 
-    const test3 = { a: { b: [1, 2, 3], c: 1 } }
+    var test3 = { a: { b: [1, 2, 3], c: 1 } }
 
     expect(recursive(true, test3, { a: { b: ['a'] } })).toStrictEqual({
       a: { b: ['a'], c: 1 },
@@ -189,7 +189,7 @@ describe('recursive', () => {
 
     expect(test3).toStrictEqual({ a: { b: [1, 2, 3], c: 1 } })
 
-    const test4 = { a: { b: { b: 2 }, c: 1 } }
+    var test4 = { a: { b: { b: 2 }, c: 1 } }
 
     expect(recursive(true, test4, { a: { b: 2 } })).toStrictEqual({
       a: { b: 2, c: 1 },
@@ -199,12 +199,12 @@ describe('recursive', () => {
   })
 
   it('does not merge non plain objects', () => {
-    const object = recursive({ map: { length: 1 } }, { map: new Map() })
+    var object = recursive({ map: { length: 1 } }, { map: new Map() })
     expect(object.map).toBeInstanceOf(Map)
   })
 
   it('is safe', () => {
-    const payload = '{"__proto__": {"a": true}}'
+    var payload = '{"__proto__": {"a": true}}'
     expect(recursive({}, JSON.parse(payload))).toStrictEqual({})
     expect(({} as any).a).toBeUndefined()
     expect(recursive({ deep: {} }, JSON.parse(payload))).toStrictEqual({
@@ -222,9 +222,9 @@ describe('isPlainObject', () => {
     expect(isPlainObject({})).toBeTruthy()
   })
   it('returns false', () => {
-    const values = createNonPlainObjects()
-    const $isPlainObject = vi.fn().mockImplementation(isPlainObject)
-    for (const value of values) expect($isPlainObject(value)).toBeFalsy()
+    var values = createNonPlainObjects()
+    var $isPlainObject = vi.fn().mockImplementation(isPlainObject)
+    for (var value of values) expect($isPlainObject(value)).toBeFalsy()
     expect(values.length).toBeGreaterThan(0)
     expect($isPlainObject).toBeCalledTimes(values.length)
   })
