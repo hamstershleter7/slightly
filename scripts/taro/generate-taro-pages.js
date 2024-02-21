@@ -1,30 +1,30 @@
-var fse = require('fs-extra')
-var path = require('path')
-var fs = require('fs')
-var config = require('../../src/config.json')
-var navs = config.nav
+const fse = require('fs-extra')
+const path = require('path')
+const fs = require('fs')
+const config = require('../../src/config.json')
+const navs = config.nav
 
 // let fileStr = `@import '../../../styles/font/iconfont.css';`
-// var projectID = process.env.VITE_APP_PROJECT_ID
+// const projectID = process.env.VITE_APP_PROJECT_ID
 // if (projectID) {
 //   fileStr = `@import '../../../styles/font-${projectID}/iconfont.css';`
 // }
 
 // 在mobile-taro下创建相应的文件夹，并创建index.config.ts、index.tsx
 // 将packages下的demo.taro.tsx 的内容拷贝到 mobile-taro 下的 index.tsx 中。
-var createIndexConfig = (enName, package) => {
+const createIndexConfig = (enName, package) => {
   return new Promise((resolve, reject) => {
     if (package.show && package.taro) {
-      var name = package.name
-      var nameLc = package.name.toLowerCase()
+      const name = package.name
+      const nameLc = package.name.toLowerCase()
       let content = `export default {
   navigationBarTitleText: '${name}',
 }`
-      var dirPath = path.join(
+      const dirPath = path.join(
         __dirname,
         `../../packages/nutui-taro-demo/src/${enName}/pages/${nameLc}`
       )
-      var filePath = path.join(dirPath, `index.config.ts`)
+      const filePath = path.join(dirPath, `index.config.ts`)
       if (!fs.existsSync(dirPath)) {
         fs.mkdirSync(dirPath, { recursive: true }, (err) => {
           console.log('mkdir error', err)
@@ -39,13 +39,13 @@ var createIndexConfig = (enName, package) => {
       })
 
       // 生成 demo
-      var demoContent = `import Demo from '@/packages/${nameLc}/demo.taro';
+      const demoContent = `import Demo from '@/packages/${nameLc}/demo.taro';
 export default Demo;`
-      var demoDirPath = path.join(
+      const demoDirPath = path.join(
         __dirname,
         `../../packages/nutui-taro-demo/src/${enName}/pages/${nameLc}`
       )
-      var demoFilePath = path.join(demoDirPath, `index.tsx`)
+      const demoFilePath = path.join(demoDirPath, `index.tsx`)
       if (!fs.existsSync(demoDirPath)) {
         fs.mkdirSync(demoDirPath, { recursive: true }, (err) => {
           console.log('mkdir error', err)
@@ -61,13 +61,13 @@ export default Demo;`
   })
 }
 
-var replaceAppSCSS = () => {
-  var dirPath = path.join(__dirname, `../../packages/nutui-taro-demo/src`)
-  var filePath = path.join(dirPath, `app.scss`)
+const replaceAppSCSS = () => {
+  const dirPath = path.join(__dirname, `../../packages/nutui-taro-demo/src`)
+  const filePath = path.join(dirPath, `app.scss`)
   fse.readFile(filePath, (err, data) => {
     if (!err) {
       let fileString = data.toString()
-      var lines = fileString.split('\n')
+      const lines = fileString.split('\n')
       if (lines[0].indexOf(`@import '../../../styles/font`) !== -1) {
         lines[0] = ''
       }
