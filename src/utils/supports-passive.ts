@@ -1,6 +1,6 @@
 import { canUseDom } from './can-use-dom'
 
-export const passiveSupported = false
+export let passiveSupported = false
 
 if (canUseDom) {
   try {
