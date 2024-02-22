@@ -10,7 +10,7 @@ export default function useMemo<Value, Condition = any[]>(
   condition: Condition,
   shouldUpdate: (prev: Condition, next: Condition) => boolean
 ) {
-  const cacheRef = React.useRef<Cache<Value, Condition>>({})
+  let cacheRef = React.useRef<Cache<Value, Condition>>({})
 
   if (
     !('value' in cacheRef.current) ||
