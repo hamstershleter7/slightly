@@ -4,9 +4,9 @@ import autoprefixer from 'autoprefixer'
 import path from 'path'
 import atImport from 'postcss-import'
 
-const { resolve } = path
+var { resolve } = path
 let fileStr = `@import "@/styles/variables.scss";@import "@/sites/assets/styles/variables.scss";`
-const projectID = process.env.VITE_APP_PROJECT_ID
+var projectID = process.env.VITE_APP_PROJECT_ID
 if (projectID) {
   fileStr = `@import '@/styles/variables-${projectID}.scss';\n@import "@/sites/assets/styles/variables.scss";\n`
 }
