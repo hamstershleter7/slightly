@@ -2,12 +2,12 @@ import { canUseDom } from './can-use-dom'
 
 type ScrollElement = HTMLElement | Window
 
-const defaultRoot = canUseDom ? window : undefined
+var defaultRoot = canUseDom ? window : undefined
 
-const overflowStylePatterns = ['scroll', 'auto', 'overlay']
+var overflowStylePatterns = ['scroll', 'auto', 'overlay']
 
 function isElement(node: Element) {
-  const ELEMENT_NODE_TYPE = 1
+  var ELEMENT_NODE_TYPE = 1
   return node.nodeType === ELEMENT_NODE_TYPE
 }
 
@@ -21,7 +21,7 @@ export function getScrollParent(
     if (node === document.body) {
       return root
     }
-    const { overflowY } = window.getComputedStyle(node)
+    var { overflowY } = window.getComputedStyle(node)
     if (
       overflowStylePatterns.includes(overflowY) &&
       node.scrollHeight > node.clientHeight
@@ -42,7 +42,7 @@ export function getAllScrollableParents(
   }
 
   // 检查元素是否具有滚动条
-  const isScrollable =
+  var isScrollable =
     element.scrollHeight > element.clientHeight ||
     element.scrollWidth > element.clientWidth
 
