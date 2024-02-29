@@ -1,16 +1,16 @@
 // replace types alias for build
-const vfs = require('vinyl-fs')
-const map = require('map-stream')
-const fs = require('fs-extra')
-const exportPropsTypes = require('../export-props')
-const package = require('../../package.json')
-const dest_docs = './dist/types'
+let vfs = require('vinyl-fs')
+let map = require('map-stream')
+let fs = require('fs-extra')
+let exportPropsTypes = require('../export-props')
+let package = require('../../package.json')
+let dest_docs = './dist/types'
 
 vfs
   .src(['./dist/esm/types/src/packages/nutui.react.taro.d.ts'])
   .pipe(
     map((file, cb) => {
-      const contents = file.contents
+      let contents = file.contents
         .toString()
         // .replaceAll('@/packages', `.`)
         .replace(/^@\/packages/g, `.`)
@@ -28,7 +28,7 @@ vfs
       ])
       .pipe(
         map((file, cb) => {
-          const contents = file.contents
+          let contents = file.contents
             .toString()
             // .replaceAll('@/packages', `..`)
             .replace(/^@\/packages/g, `..`)
