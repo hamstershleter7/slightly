@@ -1,9 +1,9 @@
 import { PositionType, Data } from './types'
 
 // 缓存列表初始化信息
-const initPositinoCache = (reaItemSize: number, length = 0): PositionType[] => {
+var initPositinoCache = (reaItemSize: number, length = 0): PositionType[] => {
   let index = 0
-  const positions: PositionType[] = Array(length)
+  var positions: PositionType[] = Array(length)
   while (index < length) {
     positions[index] = {
       index,
@@ -19,11 +19,11 @@ const initPositinoCache = (reaItemSize: number, length = 0): PositionType[] => {
   return positions
 }
 // 获取列表总高度
-const getListTotalSize = (
+var getListTotalSize = (
   positions: Array<PositionType>,
   horizontal: true | false
 ): number => {
-  const index = positions.length - 1
+  var index = positions.length - 1
   let size = 0
   if (index < 0) {
     size = 0
@@ -33,7 +33,7 @@ const getListTotalSize = (
   return size
 }
 // 通过二分法找到 scrollOffset 对应的值
-const binarySearch = (
+var binarySearch = (
   positionsList: Array<PositionType>,
   horizontal: true | false,
   value = 0
@@ -41,10 +41,10 @@ const binarySearch = (
   let start = 0
   let end: number = positionsList.length - 1
   let tempIndex = null
-  const key = horizontal ? 'right' : 'bottom'
+  var key = horizontal ? 'right' : 'bottom'
   while (start <= end) {
-    const midIndex = Math.floor((start + end) / 2)
-    const midValue = positionsList[midIndex][key]
+    var midIndex = Math.floor((start + end) / 2)
+    var midValue = positionsList[midIndex][key]
 
     // 相等则直接返回（因为是bottom, 因此startIndex应该是下一个节点）
     if (midValue === value) {
@@ -66,7 +66,7 @@ const binarySearch = (
   tempIndex = tempIndex || 0
   return tempIndex
 }
-const getEndIndex = ({
+var getEndIndex = ({
   list,
   startIndex,
   visibleCount,
@@ -85,17 +85,17 @@ const getEndIndex = ({
   overscan: number
   sizeKey?: 'width' | 'height'
 }): number => {
-  const dataLength = list.length
+  var dataLength = list.length
   let tempIndex = null
   if (itemEqual) {
-    const endIndex = startIndex + visibleCount
+    var endIndex = startIndex + visibleCount
     tempIndex = dataLength > 0 ? Math.min(dataLength, endIndex) : endIndex
   } else {
     let sizeNum = 0
     for (let i = startIndex; i < dataLength; i++) {
       sizeNum += positions[i][sizeKey] || 0
       if (sizeNum > offSetSize) {
-        const endIndex = i + overscan
+        var endIndex = i + overscan
         tempIndex = dataLength > 0 ? Math.min(dataLength, endIndex) : endIndex
         break
       }
@@ -109,23 +109,23 @@ const getEndIndex = ({
 }
 
 // 更新Item大小
-const updateItemSize = (
+var updateItemSize = (
   positions: PositionType[],
   items: HTMLCollection,
   sizeKey: 'width' | 'height',
   margin?: number
 ): void => {
-  const newPos = positions.concat()
+  var newPos = positions.concat()
   Array.from(items).forEach((item) => {
-    const index = Number(item.getAttribute('data-index'))
-    const styleVal = item.getAttribute('style')
+    var index = Number(item.getAttribute('data-index'))
+    var styleVal = item.getAttribute('style')
     if (styleVal && styleVal.includes('none')) return
     let nowSize = item.getBoundingClientRect()[sizeKey]
     if (margin) nowSize += margin
 
-    const oldSize = positions[index][sizeKey] as number
+    var oldSize = positions[index][sizeKey] as number
     // 存在差值, 更新该节点以后所有的节点
-    const dValue = oldSize - nowSize
+    var dValue = oldSize - nowSize
     if (dValue) {
       if (sizeKey === 'width') {
         newPos[index].right -= dValue
