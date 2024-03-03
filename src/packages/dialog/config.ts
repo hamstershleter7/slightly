@@ -55,4 +55,4 @@ export interface DialogComponent
   destroyAll: () => void
 }
 
-export let destroyList: Array<() => void> = []
+export const destroyList: Array<() => void> = []
