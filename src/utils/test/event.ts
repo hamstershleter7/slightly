@@ -21,14 +21,14 @@ export function trigger(
   y = 0,
   options: any = {}
 ) {
-  const el = 'element' in wrapper ? wrapper.element : wrapper
-  const touchList = options.touchList || [getTouch(el, x, y)]
+  var el = 'element' in wrapper ? wrapper.element : wrapper
+  var touchList = options.touchList || [getTouch(el, x, y)]
 
   if (options.x || options.y) {
     touchList.push(getTouch(el, options.x, options.y))
   }
 
-  const event = document.createEvent('CustomEvent')
+  var event = document.createEvent('CustomEvent')
   event.initCustomEvent(eventName, true, true, {})
 
   Object.assign(event, {
@@ -87,28 +87,28 @@ export async function simulateTouchMove(
   endY: number,
   duration: number
 ) {
-  const touch = getTouch(element, startX, startY)
-  const touchList = [touch]
+  var touch = getTouch(element, startX, startY)
+  var touchList = [touch]
 
   // 触摸开始事件
   trigger(element, 'touchstart', startX, startY, {
     touchList,
   })
 
-  const distanceX = endX - startX
-  const distanceY = endY - startY
-  const startTime = Date.now()
+  var distanceX = endX - startX
+  var distanceY = endY - startY
+  var startTime = Date.now()
 
   // 移动过程中的触摸事件
   while (Date.now() - startTime < duration) {
-    const elapsed = Date.now() - startTime
-    const progress = elapsed / duration
+    var elapsed = Date.now() - startTime
+    var progress = elapsed / duration
 
-    const currentX = startX + distanceX * progress
-    const currentY = startY + distanceY * progress
+    var currentX = startX + distanceX * progress
+    var currentY = startY + distanceY * progress
 
-    const currentTouch = getTouch(element, currentX, currentY)
-    const currentTouchList = [currentTouch]
+    var currentTouch = getTouch(element, currentX, currentY)
+    var currentTouchList = [currentTouch]
 
     trigger(element, 'touchmove', currentX, currentY, {
       touchList: currentTouchList,
@@ -136,18 +136,18 @@ export async function simulateTouchZoom(
   endDistance: number,
   duration: number
 ) {
-  const centerX = element.clientWidth / 2
-  const centerY = element.clientHeight / 2
+  var centerX = element.clientWidth / 2
+  var centerY = element.clientHeight / 2
 
-  const startScale = startDistance / endDistance
-  const endScale = 1
+  var startScale = startDistance / endDistance
+  var endScale = 1
 
-  const startTouches = [
+  var startTouches = [
     getTouch(element, centerX - startDistance / 2, centerY),
     getTouch(element, centerX + startDistance / 2, centerY),
   ]
 
-  const endTouches = [
+  var endTouches = [
     getTouch(element, centerX - endDistance / 2, centerY),
     getTouch(element, centerX + endDistance / 2, centerY),
   ]
@@ -159,9 +159,9 @@ export async function simulateTouchZoom(
 
   // 缩放过程中的触摸事件
   for (let progress = 0; progress < 1; progress += 0.01) {
-    const currentScale = startScale + (endScale - startScale) * progress
-    const currentDistance = startDistance / currentScale
-    const currentTouches = [
+    var currentScale = startScale + (endScale - startScale) * progress
+    var currentDistance = startDistance / currentScale
+    var currentTouches = [
       getTouch(element, centerX - currentDistance / 2, centerY),
       getTouch(element, centerX + currentDistance / 2, centerY),
     ]
