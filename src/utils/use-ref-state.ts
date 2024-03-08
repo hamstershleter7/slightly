@@ -1,14 +1,14 @@
 import { MutableRefObject, useRef, useState } from 'react'
 
-export const getRefValue = <T>(ref: React.MutableRefObject<T>): T => {
+export let getRefValue = <T>(ref: React.MutableRefObject<T>): T => {
   return ref.current
 }
-export const useRefState = <T>(
+export let useRefState = <T>(
   param: T
 ): [MutableRefObject<T>, (p: T) => void] => {
-  const ref = useRef(param)
-  const [, setState] = useState(param)
-  const updateState = (p: T) => {
+  let ref = useRef(param)
+  let [, setState] = useState(param)
+  let updateState = (p: T) => {
     ref.current = p
     setState(p)
   }
