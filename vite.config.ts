@@ -5,9 +5,9 @@ import path from 'path'
 import atImport from 'postcss-import'
 import { readFileSync } from 'node:fs'
 
-const projectID = process.env.VITE_APP_PROJECT_ID || ''
+var projectID = process.env.VITE_APP_PROJECT_ID || ''
 
-const { resolve } = path
+var { resolve } = path
 
 let fileStr = `@import "@/styles/variables.scss";@import "@/sites/assets/styles/variables.scss";@import '@/styles/theme-default.scss';\n`
 if (projectID) {
@@ -16,9 +16,9 @@ if (projectID) {
 
 // https://vitejs.dev/config/
 export default defineConfig(async (): Promise<UserConfig> => {
-  const mdx = await import('@mdx-js/rollup')
-  const remarkGfm = await import('remark-gfm')
-  const remarkDirective = await import('remark-directive')
+  var mdx = await import('@mdx-js/rollup')
+  var remarkGfm = await import('remark-gfm')
+  var remarkDirective = await import('remark-directive')
   return {
     server: {
       host: '0.0.0.0',
@@ -73,9 +73,9 @@ export default defineConfig(async (): Promise<UserConfig> => {
         async load(id: string) {
           if (id.endsWith('.scss')) {
             // 移除 @import 语句
-            const filePath = resolve(process.cwd(), id)
-            const scssCode = await readFileSync(filePath, 'utf-8')
-            const modifiedCode = scssCode.replace(
+            var filePath = resolve(process.cwd(), id)
+            var scssCode = await readFileSync(filePath, 'utf-8')
+            var modifiedCode = scssCode.replace(
               /@import\s+['"](\.{2}?\/)[^'".]+(.s?css)['"];/g,
               ''
             )
