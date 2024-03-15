@@ -1,13 +1,13 @@
-let { options } = require('jscodeshift/src/argsParser')
-let changedPropsRules = require('./rules/props-rules')
-let findNutUIImports = require('./utils/find-pkg-imports')
+const { options } = require('jscodeshift/src/argsParser')
+const changedPropsRules = require('./rules/props-rules')
+const findNutUIImports = require('./utils/find-pkg-imports')
 
 module.exports = (file, api, options) => {
-  let j = api.jscodeshift
-  let root = j(file.source)
+  const j = api.jscodeshift
+  const root = j(file.source)
 
   function convert(nodePath, componentConvertRule, propName) {
-    let { action, replacer } = componentConvertRule[propName]
+    const { action, replacer } = componentConvertRule[propName]
     if (action === 'rename') {
       if (typeof replacer === 'string') {
         // <Cell title="我是标题" subTitle="副标题描述" desc="描述文字" />
@@ -43,17 +43,17 @@ module.exports = (file, api, options) => {
   // 获取 nutui 的 import，查找 Button
   // 根据查找的 button，修改 props
   // 查找 @nutui/nutui-react 或 @nutui/nutui-react-taro
-  let imports = findNutUIImports(j, root, options.pkgInfo)
+  const imports = findNutUIImports(j, root, options.pkgInfo)
   imports.forEach((path) => {
     // 从 import {Button} from '@nutui/nutui-react'，提取出 Button
     // 从 import {Button as AButton } from '@nutui/nutui-react'，提取出 AButton
-    let specifiers = path.value.specifiers
+    const specifiers = path.value.specifiers
     specifiers.forEach((specifier) => {
-      let importedComponentName = specifier.imported.name
-      let componentConvertRule = changedPropsRules[importedComponentName]
-      let localComponentName = specifier.local.name
+      const importedComponentName = specifier.imported.name
+      const componentConvertRule = changedPropsRules[importedComponentName]
+      const localComponentName = specifier.local.name
       // 根据转换规则查找属性
-      let JSXElements = root.findJSXElements(localComponentName)
+      const JSXElements = root.findJSXElements(localComponentName)
       // 查找像 Cell.Group 这种使用方式
       root
         .find(j.JSXMemberExpression, {
@@ -71,9 +71,9 @@ module.exports = (file, api, options) => {
           return false
         })
         .forEach((path) => {
-          let subComponent = path.parent.node.name.property.name
-          let memberExpressionName = `${importedComponentName}.${subComponent}`
-          let rule = changedPropsRules[memberExpressionName]
+          const subComponent = path.parent.node.name.property.name
+          const memberExpressionName = `${importedComponentName}.${subComponent}`
+          const rule = changedPropsRules[memberExpressionName]
           if (!rule) return false
           Object.keys(rule).forEach((propName) => {
             j(path.parent)
