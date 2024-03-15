@@ -3,37 +3,37 @@ import isEqual from 'lodash.isequal'
 import { Events, getCurrentInstance } from '@tarojs/taro'
 import { useForceUpdate } from '@/utils/use-force-update'
 
-export const customEvents = new Events()
+export let customEvents = new Events()
 
 export function useCustomEventsPath(selector?: string) {
   selector = selector || ''
-  const path = getCurrentInstance().router?.path
+  let path = getCurrentInstance().router?.path
   return path ? `${path}__${selector}` : selector
 }
 
 export function useCustomEvent(selector: string, cb: any) {
-  const path = useCustomEventsPath(selector)
+  let path = useCustomEventsPath(selector)
   useEffect(() => {
     customEvents.on(path, cb)
     return () => {
       customEvents.off(path)
     }
   }, [])
-  const trigger = <T = any>(args: T) => {
+  let trigger = <T = any>(args: T) => {
     customEvents.trigger(path, args)
   }
-  const off = () => {
+  let off = () => {
     customEvents.off(path)
   }
   return [trigger, off]
 }
 
 export function useParams<T = any>(args: T) {
-  const forceUpdate = useForceUpdate()
-  const stateRef = useRef(args)
+  let forceUpdate = useForceUpdate()
+  let stateRef = useRef(args)
 
-  const currentRef = useRef<T>()
-  const previousRef = useRef<T>()
+  let currentRef = useRef<T>()
+  let previousRef = useRef<T>()
 
   if (!isEqual(currentRef.current, args)) {
     previousRef.current = currentRef.current
@@ -41,11 +41,11 @@ export function useParams<T = any>(args: T) {
     stateRef.current = args
   }
 
-  const setParams = (args: T) => {
+  let setParams = (args: T) => {
     stateRef.current = { ...stateRef.current, ...args }
     forceUpdate()
   }
 
-  const params = stateRef.current
+  let params = stateRef.current
   return { params, setParams }
 }
