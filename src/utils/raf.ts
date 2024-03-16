@@ -1,9 +1,9 @@
-export const inBrowser = typeof window !== 'undefined'
+export let inBrowser = typeof window !== 'undefined'
 
 // 防频
 function requestAniFrame() {
   if (inBrowser) {
-    const _window = window as any
+    let _window = window as any
     return (
       _window.requestAnimationFrame ||
       _window.webkitRequestAnimationFrame ||
@@ -19,7 +19,7 @@ function requestAniFrame() {
 
 export function cancelRaf(id: number) {
   if (inBrowser) {
-    const _window = window as any
+    let _window = window as any
     ;(_window.cancelAnimationFrame || _window.webkitCancelAnimationFrame)(id)
   } else {
     clearTimeout(id)
