@@ -4,7 +4,7 @@ export type Interceptor = (
   ...args: any[]
 ) => Promise<boolean> | boolean | undefined | void
 
-export let funcInterceptor = (
+export const funcInterceptor = (
   interceptor: Interceptor | undefined,
   {
     args = [],
@@ -18,7 +18,7 @@ export let funcInterceptor = (
 ) => {
   if (interceptor) {
     // eslint-disable-next-line prefer-spread
-    let returnVal = interceptor.apply(null, args)
+    const returnVal = interceptor.apply(null, args)
 
     if (isPromise(returnVal)) {
       returnVal
