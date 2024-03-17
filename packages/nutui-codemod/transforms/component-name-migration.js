@@ -1,17 +1,17 @@
-let findComponentImports = require('./utils/find-component-imports')
-let componentRules = require('./rules/component-rules')
+const findComponentImports = require('./utils/find-component-imports')
+const componentRules = require('./rules/component-rules')
 
 module.exports = (file, api, options) => {
-  let components = Object.keys(componentRules)
+  const components = Object.keys(componentRules)
 
-  let j = api.jscodeshift
-  let root = j(file.source)
+  const j = api.jscodeshift
+  const root = j(file.source)
 
   // 移除旧版本的引用
-  let imports = findComponentImports(j, root, components, options.pkgInfo)
+  const imports = findComponentImports(j, root, components, options.pkgInfo)
   imports.forEach((path) => {
-    let importedComponentName = path.node.imported.name
-    let importDeclaration = path.parent.node
+    const importedComponentName = path.node.imported.name
+    const importDeclaration = path.parent.node
     importDeclaration.specifiers = importDeclaration.specifiers.filter(
       (specifier) =>
         !specifier.imported || specifier.imported.name !== importedComponentName
@@ -22,9 +22,9 @@ module.exports = (file, api, options) => {
     }
 
     // 修改 jsx
-    let localComponentName = path.node.local.name
-    let rule = componentRules[importedComponentName]
-    let [parentComponentName, subComponentName] = rule.replacer.split('.')
+    const localComponentName = path.node.local.name
+    const rule = componentRules[importedComponentName]
+    const [parentComponentName, subComponentName] = rule.replacer.split('.')
     // 查找到 A.B 使用形式中的 A 或 A 的别名，根据 A 或 A 的别名修改 jsx
     root
       .find(j.ImportSpecifier, {
@@ -33,7 +33,7 @@ module.exports = (file, api, options) => {
         },
       })
       .forEach((path) => {
-        let localParentName = path.node.local.name
+        const localParentName = path.node.local.name
         root
           .find(j.JSXElement, {
             openingElement: {
@@ -41,7 +41,7 @@ module.exports = (file, api, options) => {
             },
           })
           .forEach((path) => {
-            let newjsx = subComponentName
+            const newjsx = subComponentName
               ? j.jsxMemberExpression(
                   j.jsxIdentifier(localParentName),
                   j.jsxIdentifier(subComponentName)
