@@ -1,6 +1,6 @@
 import { BaseLang } from './base'
 
-const zhUG: BaseLang = {
+let zhUG: BaseLang = {
   save: 'ساقلاش',
   confirm: 'ھەئە',
   cancel: 'ياق',
