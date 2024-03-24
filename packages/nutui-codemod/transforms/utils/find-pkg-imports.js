@@ -1,4 +1,4 @@
-// let pkgInfo = require('../../bin/config')
+// const pkgInfo = require('../../bin/config')
 
 function findNutUIImports(j, root, pkgInfo) {
   return root.find(j.ImportDeclaration).filter((path) => {
