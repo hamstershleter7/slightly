@@ -1,17 +1,17 @@
-var UPPERCASE = /[\p{Lu}]/u
-var LOWERCASE = /[\p{Ll}]/u
-var LEADING_CAPITAL = /^[\p{Lu}](?![\p{Lu}])/gu
-var IDENTIFIER = /([\p{Alpha}\p{N}_]|$)/u
-var SEPARATORS = /[_.\- ]+/
+const UPPERCASE = /[\p{Lu}]/u
+const LOWERCASE = /[\p{Ll}]/u
+const LEADING_CAPITAL = /^[\p{Lu}](?![\p{Lu}])/gu
+const IDENTIFIER = /([\p{Alpha}\p{N}_]|$)/u
+const SEPARATORS = /[_.\- ]+/
 
-var LEADING_SEPARATORS = new RegExp(`^${SEPARATORS.source}`)
-var SEPARATORS_AND_IDENTIFIER = new RegExp(
+const LEADING_SEPARATORS = new RegExp(`^${SEPARATORS.source}`)
+const SEPARATORS_AND_IDENTIFIER = new RegExp(
   SEPARATORS.source + IDENTIFIER.source,
   'gu'
 )
-var NUMBERS_AND_IDENTIFIER = new RegExp(`\\d+${IDENTIFIER.source}`, 'gu')
+const NUMBERS_AND_IDENTIFIER = new RegExp(`\\d+${IDENTIFIER.source}`, 'gu')
 
-var preserveCamelCase = (
+const preserveCamelCase = (
   string: string | any[],
   toLowerCase: { (string: any): any; (arg0: any): any },
   toUpperCase: { (string: any): any; (arg0: any): any }
@@ -21,7 +21,7 @@ var preserveCamelCase = (
   let isLastLastCharUpper = false
 
   for (let index = 0; index < string.length; index++) {
-    var character = string[index]
+    const character = string[index]
 
     if (isLastCharLower && UPPERCASE.test(character)) {
       string = `${string.slice(0, index)}-${string.slice(index)}`
@@ -52,7 +52,7 @@ var preserveCamelCase = (
   return string
 }
 
-var preserveConsecutiveUppercase = (
+const preserveConsecutiveUppercase = (
   input: string,
   toLowerCase: { (string: any): any; (arg0: any): any }
 ) => {
@@ -61,7 +61,7 @@ var preserveConsecutiveUppercase = (
   return input.replace(LEADING_CAPITAL, (m1: any) => toLowerCase(m1))
 }
 
-var postProcess = (
+const postProcess = (
   input: string,
   toUpperCase: { (string: any): any; (arg0: any): any }
 ) => {
@@ -75,7 +75,7 @@ var postProcess = (
     .replace(NUMBERS_AND_IDENTIFIER, (m: any) => toUpperCase(m))
 }
 
-export var camelCase = (input: any, options: any) => {
+export const camelCase = (input: any, options: any) => {
   if (!(typeof input === 'string' || Array.isArray(input))) {
     throw new TypeError('Expected the input to be `string | string[]`')
   }
@@ -99,12 +99,12 @@ export var camelCase = (input: any, options: any) => {
     return ''
   }
 
-  var toLowerCase =
+  const toLowerCase =
     options.locale === false
       ? (string: string) => string.toLowerCase()
       : (string: string) => string.toLocaleLowerCase(options.locale)
 
-  var toUpperCase =
+  const toUpperCase =
     options.locale === false
       ? (string: string) => string.toUpperCase()
       : (string: string) => string.toLocaleUpperCase(options.locale)
@@ -117,7 +117,7 @@ export var camelCase = (input: any, options: any) => {
     return options.pascalCase ? toUpperCase(input) : toLowerCase(input)
   }
 
-  var hasUpperCase = input !== toLowerCase(input)
+  const hasUpperCase = input !== toLowerCase(input)
 
   if (hasUpperCase) {
     input = preserveCamelCase(input, toLowerCase, toUpperCase)
