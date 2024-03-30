@@ -1,7 +1,7 @@
 import { createContext } from 'react'
 import { CheckboxLimit, CheckboxLabelPosition } from './types'
 
-let CheckboxGroupContext = createContext<{
+const CheckboxGroupContext = createContext<{
   labelPosition: CheckboxLabelPosition
   disabled: boolean | undefined
   list: boolean
