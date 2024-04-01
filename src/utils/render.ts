@@ -7,7 +7,7 @@ import type { Root } from 'react-dom/client'
 type CreateRoot = (container: ContainerType) => Root
 
 // Let compiler not to search module usage
-let fullClone = {
+const fullClone = {
   ...ReactDOM,
 } as typeof ReactDOM & {
   __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED?: {
@@ -16,11 +16,11 @@ let fullClone = {
   createRoot?: CreateRoot
 }
 
-let { version, render: reactRender, unmountComponentAtNode } = fullClone
+const { version, render: reactRender, unmountComponentAtNode } = fullClone
 
-let createRoot: CreateRoot
+const createRoot: CreateRoot
 try {
-  let mainVersion = Number((version || '').split('.')[0])
+  const mainVersion = Number((version || '').split('.')[0])
   if (mainVersion >= 18 && fullClone.createRoot) {
     // eslint-disable-next-line @typescript-eslint/no-var-requires
     createRoot = fullClone.createRoot
@@ -30,7 +30,7 @@ try {
 }
 
 function toggleWarning(skip: boolean) {
-  let { __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED } = fullClone
+  const { __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED } = fullClone
 
   if (
     __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED &&
@@ -41,7 +41,7 @@ function toggleWarning(skip: boolean) {
   }
 }
 
-let MARK = '__nutui_react_root__'
+const MARK = '__nutui_react_root__'
 
 // ========================== Render ==========================
 type ContainerType = (Element | DocumentFragment) & {
@@ -54,7 +54,7 @@ function legacyRender(node: ReactElement, container: ContainerType) {
 
 function concurrentRender(node: ReactElement, container: ContainerType) {
   toggleWarning(true)
-  let root = container[MARK] || createRoot(container)
+  const root = container[MARK] || createRoot(container)
   toggleWarning(false)
   root.render(node)
   container[MARK] = root
