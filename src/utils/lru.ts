@@ -13,7 +13,7 @@ export default class MiniLru {
 
   get(key: any): any | null {
     if (this.cache.has(key)) {
-      let value = this.cache.get(key)
+      const value = this.cache.get(key)
       this.cache.delete(key)
       this.cache.set(key, value)
       return value
