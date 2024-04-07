@@ -31,9 +31,9 @@ export class UploadOptions {
 
   beforeXhrUpload?: any
 }
-export const UPLOADING = 'uploading'
-export const SUCCESS = 'success'
-export const ERROR = 'error'
+export let UPLOADING = 'uploading'
+export let SUCCESS = 'success'
+export let ERROR = 'error'
 
 export class Upload {
   options: UploadOptions
@@ -43,8 +43,8 @@ export class Upload {
   }
 
   upload() {
-    const { options } = this
-    const xhr = new XMLHttpRequest()
+    let { options } = this
+    let xhr = new XMLHttpRequest()
     xhr.timeout = options.timeout
     if (xhr.upload) {
       xhr.upload.addEventListener(
@@ -66,7 +66,7 @@ export class Upload {
       xhr.withCredentials = options.withCredentials
       xhr.open(options.method, options.url, true)
       // headers
-      for (const [key, value] of Object.entries(options.headers)) {
+      for (let [key, value] of Object.entries(options.headers)) {
         xhr.setRequestHeader(key, value as string)
       }
       options.onStart?.(options)
@@ -87,7 +87,7 @@ export class UploaderTaro extends Upload {
   }
 
   uploadTaro(uploadFile: any, env: string) {
-    const options = this.options
+    let options = this.options
     if (options.beforeXhrUpload) {
       options.beforeXhrUpload(uploadFile, options)
       return
@@ -95,7 +95,7 @@ export class UploaderTaro extends Upload {
     if (env === 'WEB') {
       this.upload()
     } else {
-      const uploadTask = uploadFile({
+      let uploadTask = uploadFile({
         url: options.url,
         filePath: options.taroFilePath,
         fileType: options.fileType,
