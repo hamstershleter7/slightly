@@ -1,6 +1,6 @@
 import { BaseLang } from './base'
 
-const zhCN: BaseLang = {
+let zhCN: BaseLang = {
   save: '保存',
   confirm: '确认',
   cancel: '取消',
