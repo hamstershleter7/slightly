@@ -1,6 +1,6 @@
 import { BaseLang } from './base'
 
-const enUS: BaseLang = {
+let enUS: BaseLang = {
   save: 'Save',
   confirm: 'Confirm',
   cancel: 'Cancel',
