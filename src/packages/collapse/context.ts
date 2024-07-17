@@ -1,6 +1,6 @@
 import { createContext } from 'react'
 
-const collapseContext = {
+let collapseContext = {
   isOpen: (name: string) => {
     return true
   },
