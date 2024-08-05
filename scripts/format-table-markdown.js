@@ -1,27 +1,27 @@
-const markdownIt = require('markdown-it')()
-const fs = require('fs')
-const path = require('path')
-const TurndownService = require('turndown')
-const turndownPluginGfm = require('turndown-plugin-gfm')
+var markdownIt = require('markdown-it')()
+var fs = require('fs')
+var path = require('path')
+var TurndownService = require('turndown')
+var turndownPluginGfm = require('turndown-plugin-gfm')
 
 function convertMdTables(inputFile, outputFile) {
-  const mdText = fs.readFileSync(inputFile, 'utf8')
+  var mdText = fs.readFileSync(inputFile, 'utf8')
 
   let html = markdownIt.render(mdText)
 
   // 在 HTML 中查找表格，并将其转换为数组
-  const tables = html.match(/<table[\s\S]*?<\/table>/g)
+  var tables = html.match(/<table[\s\S]*?<\/table>/g)
   // 将数组中的每个表格转换为对象
-  const tableObjects = tables.map((table) => {
-    const rows = table.match(/<tr[\s\S]*?<\/tr>/g)
-    const headers = rows[0].match(/<th[\s\S]*?<\/th>/g).map((th) => {
+  var tableObjects = tables.map((table) => {
+    var rows = table.match(/<tr[\s\S]*?<\/tr>/g)
+    var headers = rows[0].match(/<th[\s\S]*?<\/th>/g).map((th) => {
       return th.replace(/<\/?th>/g, '')
     })
-    const bodyRows = rows.slice(1).map((row) => {
-      const cells = row.match(/<td[\s\S]*?<\/td>/g).map((td) => {
+    var bodyRows = rows.slice(1).map((row) => {
+      var cells = row.match(/<td[\s\S]*?<\/td>/g).map((td) => {
         return td.replace(/<\/?td>/g, '')
       })
-      const rowObj = {}
+      var rowObj = {}
       headers.forEach((header, index) => {
         rowObj[header] = cells[index]
       })
@@ -31,7 +31,7 @@ function convertMdTables(inputFile, outputFile) {
   })
 
   // html 转 markdown 的初始化
-  const turndownService = new TurndownService({
+  var turndownService = new TurndownService({
     headingStyle: 'atx',
     codeBlockStyle: 'fenced',
     emDelimiter: '*',
@@ -39,8 +39,8 @@ function convertMdTables(inputFile, outputFile) {
   turndownService.use(turndownPluginGfm.gfm)
 
   // 单元格格式处理
-  const formatRow = (row) => {
-    const waitForFormat = [
+  var formatRow = (row) => {
+    var waitForFormat = [
       '类型',
       '默认值',
       'Type',
@@ -66,15 +66,15 @@ function convertMdTables(inputFile, outputFile) {
     return row
   }
   // 将表格对象转换为 Markdown 格式的表格
-  const mdTables = tableObjects.map((table) => {
-    const headers = Object.keys(table[0])
-    const correctTable = table.map((row) => {
+  var mdTables = tableObjects.map((table) => {
+    var headers = Object.keys(table[0])
+    var correctTable = table.map((row) => {
       return formatRow(row)
     })
-    const headerRow = `| ${headers.join(' | ')} |\n|${headers
+    var headerRow = `| ${headers.join(' | ')} |\n|${headers
       .map(() => ' --- ')
       .join('|')}|\n`
-    const bodyRows = correctTable
+    var bodyRows = correctTable
       .map(
         (row) =>
           `| ${Object.values(row)
@@ -93,13 +93,13 @@ function convertMdTables(inputFile, outputFile) {
   })
 
   // 将 HTML 转换回 Markdown
-  const md = turndownService.turndown(html)
+  var md = turndownService.turndown(html)
   fs.writeFileSync(outputFile, md, 'utf8')
 }
 
-const fileType = ['doc.md', 'doc.en-US.md', 'doc.zh-TW.md', 'doc.taro.md']
-const component = process.argv[2]
-const basePath = path.join(
+var fileType = ['doc.md', 'doc.en-US.md', 'doc.zh-TW.md', 'doc.taro.md']
+var component = process.argv[2]
+var basePath = path.join(
   __dirname,
   `../src/packages/${component.toLowerCase()}/`
 )
