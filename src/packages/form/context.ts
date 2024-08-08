@@ -1,3 +1,3 @@
 import { createContext } from 'react'
 
-export const Context = createContext<{ [key: string]: any }>({})
+export let Context = createContext<{ [key: string]: any }>({})
