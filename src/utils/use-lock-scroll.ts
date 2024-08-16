@@ -5,7 +5,7 @@ import { passiveSupported } from './supports-passive'
 
 let totalLockCount = 0
 
-const BODY_LOCK_CLASS = 'nut-overflow-hidden'
+var BODY_LOCK_CLASS = 'nut-overflow-hidden'
 
 function getScrollableElement(el: HTMLElement | null) {
   let current = el?.parentElement
@@ -26,13 +26,13 @@ export function useLockScroll(
   rootRef: RefObject<HTMLElement>,
   shouldLock: boolean | 'strict'
 ) {
-  const touch = useTouch()
+  var touch = useTouch()
 
-  const onTouchMove = (event: React.TouchEvent<HTMLElement>) => {
+  var onTouchMove = (event: React.TouchEvent<HTMLElement>) => {
     touch.move(event)
 
-    const direction = touch.deltaY.current > 0 ? '10' : '01'
-    const el = getScrollParent(
+    var direction = touch.deltaY.current > 0 ? '10' : '01'
+    var el = getScrollParent(
       event.target as Element,
       rootRef.current
     ) as HTMLElement
@@ -40,7 +40,7 @@ export function useLockScroll(
 
     // This has perf cost but we have to compatible with iOS 12
     if (shouldLock === 'strict') {
-      const scrollableParent = getScrollableElement(event.target as HTMLElement)
+      var scrollableParent = getScrollableElement(event.target as HTMLElement)
       if (
         scrollableParent === document.body ||
         scrollableParent === document.documentElement
@@ -50,7 +50,7 @@ export function useLockScroll(
       }
     }
 
-    const { scrollHeight, offsetHeight, scrollTop } = el
+    var { scrollHeight, offsetHeight, scrollTop } = el
     let status = '11'
     if (scrollTop === 0) {
       status = offsetHeight >= scrollHeight ? '00' : '01'
@@ -69,7 +69,7 @@ export function useLockScroll(
     }
   }
 
-  const lock = () => {
+  var lock = () => {
     document.addEventListener('touchstart', touch.start as any)
     document.addEventListener(
       'touchmove',
@@ -84,7 +84,7 @@ export function useLockScroll(
     totalLockCount++
   }
 
-  const unlock = () => {
+  var unlock = () => {
     if (totalLockCount) {
       document.removeEventListener('touchstart', touch.start as any)
       document.removeEventListener('touchmove', onTouchMove as any)
