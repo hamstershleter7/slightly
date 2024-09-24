@@ -1,14 +1,14 @@
-var path = require('path')
+const path = require('path')
 
 let fileStr = `src/styles/variables.scss`
 let themeStr = `src/styles/theme-default.scss`
-var projectID = process.env.VITE_APP_PROJECT_ID
+const projectID = process.env.VITE_APP_PROJECT_ID
 if (projectID) {
   fileStr = `src/styles/variables-${projectID}.scss`
   themeStr = `src/styles/theme-${projectID}.scss`
 }
 
-var config = {
+const config = {
   projectName: 'first',
   date: '2022-7-11',
   designWidth: 375,
