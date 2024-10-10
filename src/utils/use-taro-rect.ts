@@ -1,15 +1,15 @@
 import Taro, { createSelectorQuery } from '@tarojs/taro'
 
-export const getTaroRectById = (id: string) => {
+export let getTaroRectById = (id: string) => {
   return new Promise((resolve, reject) => {
     if (Taro.getEnv() === Taro.ENV_TYPE.WEB) {
-      const t = document ? document.querySelector(`#${id}`) : ''
+      let t = document ? document.querySelector(`#${id}`) : ''
       if (t) {
         resolve(t?.getBoundingClientRect())
       }
       reject()
     } else {
-      const query = createSelectorQuery()
+      let query = createSelectorQuery()
       query
         .select(`#${id}`)
         .boundingClientRect()
