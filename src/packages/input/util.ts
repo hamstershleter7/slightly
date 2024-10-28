@@ -1,5 +1,5 @@
 function trimExtraChar(value: string, char: string, regExp: RegExp) {
-  const index = value.indexOf(char)
+  let index = value.indexOf(char)
 
   if (index === -1) {
     return value
@@ -28,7 +28,7 @@ export function formatNumber(
   } else {
     value = value.replace(/-/, '')
   }
-  const regExp = allowDot ? /[^-0-9.]/g : /[^-0-9]/g
+  let regExp = allowDot ? /[^-0-9.]/g : /[^-0-9]/g
 
   return value.replace(regExp, '')
 }
