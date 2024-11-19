@@ -1,4 +1,4 @@
-let componentRules = {
+const componentRules = {
   GridItem: {
     action: 'rename',
     replacer: 'Grid.Item',
