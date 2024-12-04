@@ -1,4 +1,4 @@
-const propsRules = {
+let propsRules = {
   Button: {
     plain: {
       action: 'rename',
