@@ -1,5 +1,5 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
+let nextConfig = {
   reactStrictMode: true,
   transpilePackages: ['@nutui/nutui-react', '@nutui/icons-react'],
 }
