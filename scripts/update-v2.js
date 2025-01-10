@@ -1,16 +1,16 @@
-let fse = require('fs-extra')
+const fse = require('fs-extra')
 
-let fs = require('fs')
-let path = require('path')
-let config = require('../src/config.json')
-let navs = config.nav
+const fs = require('fs')
+const path = require('path')
+const config = require('../src/config.json')
+const navs = config.nav
 
-let createIndexConfig = (enName, package) => {
+const createIndexConfig = (enName, package) => {
   return new Promise((resolve, reject) => {
     // if (package.show) {
-    let name = package.name
-    let nameLc = package.name.toLowerCase()
-    let dirPath = path.join(__dirname, `../src/packages/${nameLc}`)
+    const name = package.name
+    const nameLc = package.name.toLowerCase()
+    const dirPath = path.join(__dirname, `../src/packages/${nameLc}`)
     console.log('dirpath', dirPath)
     fs.readdir(dirPath, (err, files) => {
       if (err) {
@@ -19,7 +19,7 @@ let createIndexConfig = (enName, package) => {
       }
 
       files.forEach((file) => {
-        let filePath = path.join(dirPath, file)
+        const filePath = path.join(dirPath, file)
 
         fs.readFile(filePath, 'utf8', (err, data) => {
           if (err) {
@@ -27,7 +27,7 @@ let createIndexConfig = (enName, package) => {
             return
           }
 
-          let updatedData = data
+          const updatedData = data
             .replace(/&__([a-zA-Z0-9]+)/g, '&-$1')
             .replace(/&--([a-zA-Z0-9]+)/g, '&-$1')
             .replace(/&-([a-zA-Z0-9]+)__([a-zA-Z0-9]+)/g, '&-$1-$2')
