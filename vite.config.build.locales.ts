@@ -4,7 +4,7 @@ import path from 'path'
 import { globSync } from 'glob'
 import config from './package.json'
 
-const banner = `/*!
+let banner = `/*!
 * ${config.name} v${config.version} ${new Date()}
 * (c) 2023 @jdf2e.
 * Released under the MIT License.
@@ -14,9 +14,9 @@ interface Entries {
   [key: string]: string
 }
 
-const entries: Entries = {}
+let entries: Entries = {}
 
-const locales = globSync(`./src/locales/*.ts`)
+let locales = globSync(`./src/locales/*.ts`)
 locales.forEach((item: string) => {
   entries[item.replace('.ts', '').replace('src/locales/', '')] = path.join(
     __dirname,
