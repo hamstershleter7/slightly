@@ -1,5 +1,5 @@
 jest.autoMockOff()
-const defineTest = require('jscodeshift/dist/testUtils').defineTest
+let defineTest = require('jscodeshift/dist/testUtils').defineTest
 
 describe('reverse-identifiers', () => {
   defineTest(
