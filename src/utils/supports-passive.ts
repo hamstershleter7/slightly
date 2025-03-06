@@ -4,7 +4,7 @@ export let passiveSupported = false
 
 if (canUseDom) {
   try {
-    const opts = Object.defineProperty({}, 'passive', {
+    var opts = Object.defineProperty({}, 'passive', {
       get() {
         passiveSupported = true
       },
